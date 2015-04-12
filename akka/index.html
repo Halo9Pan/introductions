@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="zh">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Akka</title>
+
+		<link rel="shortcut icon" href="common/favicon.png" />
+
+		<meta name="description" content="Akka and Actor Pattern">
+		<meta name="author" content="Halo9Pan">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="reveal/css/reveal.min.css">
+		<link rel="stylesheet" href="reveal/css/theme/default.css" id="theme">
+		<link rel="stylesheet" href="common/styles/reveal.css">
+		<link rel="stylesheet" href="common/styles/main.css">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="reveal/lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<section class="slide begin">
+						<h1>Akka</h1>
+						<h3>Actor模式的JVM实现</h3>
+						<h4>
+							<a href="http://halo9pan.info">Halo9Pan</a> / <a href="http://github.com/Halo9Pan">@Halo9Pan</a>
+						</h4>
+					</section>
+					<section id="transitions">
+						<h3>转场样式</h3>
+						<p>
+							<a href="?transition=cube#/transitions">Cube</a> -
+							<a href="?transition=page#/transitions">Page</a> -
+							<a href="?transition=concave#/transitions">Concave</a> -
+							<a href="?transition=zoom#/transitions">Zoom</a> -
+							<a href="?transition=linear#/transitions">Linear</a> -
+							<a href="?transition=fade#/transitions">Fade</a> -
+							<a href="?transition=none#/transitions">None</a> -
+							<a href="?#/transitions">Default</a>
+						</p>
+					</section>
+	
+					<section id="themes">
+						<h3>主题</h3>
+						<p>
+							<a href="?#/themes">Default</a> -
+							<a href="?theme=sky#/themes">Sky</a> -
+							<a href="?theme=beige#/themes">Beige</a> -
+							<a href="?theme=simple#/themes">Simple</a> -
+							<a href="?theme=serif#/themes">Serif</a> -
+							<a href="?theme=night#/themes">Night</a> <br>
+							<a href="?theme=moon#/themes">Moon</a> -
+							<a href="?theme=solarized#/themes">Solarized</a>
+						</p>
+					</section>
+				</section>
+				
+                <section>
+                    <section class="slide" id="akka">
+                        <h2>Akka</h2>
+                    </section>
+                    <section class="slide" id="definition">
+                        <h3>定义</h3>
+                        <ul>
+                            <li class="fragment">Akka 是一个开发库和运行环境，可以用于构建高并发、分布式、可容错、事件驱动的基于JVM的应用。使构建高并发的分布式应用更加容易。</li>
+                            <li class="fragment">Akka 是一个用 Scala 编写的库，用于简化编写容错的、高可伸缩性的 Java 和 Scala 的 Actor 模型应用。</li>
+                        </ul>
+                    </section>
+                    <section class="slide" id="using">
+                        <h3>使用</h3>
+                        <ul>
+                            <li class="fragment">以库的形式：在 web 应用中使用，放到 WEB-INF/lib 中或者作为一个普通的 jar 包放进 classpath</li>
+                            <li class="fragment">以微内核的形式：将应用放进一个独立的内核</li>
+                        </ul>
+                    </section>
+                    <section class="slide" id="scenario">
+                        <h3>场景</h3>
+                        <ul>
+                            <li class="fragment">任何需要高吞吐率和低延迟的系统</li>
+                        </ul>
+                    </section>
+                </section>
+                
+                <section>
+                    <section class="slide" id="actor">
+                        <h2>Actors 模型</h2>
+                    </section>
+                    <section class="slide" id="character">
+                        <h3>特点</h3>
+                        <ul>
+                            <li class="fragment">系统中的所有事物都可以扮演一个 Actor</li>
+                            <li class="fragment">Actor 之间完全独立</li>
+                            <li class="fragment">在收到消息时 Actor 所采取的所有动作都是并行的，在一个方法中的动作没有明确的顺序</li>
+                            <li class="fragment">Actor由标识和当前行为描述</li>
+                            <li class="fragment">Actor可能被分成原始（primitive）和非原始（non primitive）类别</li>
+                        </ul>
+                    </section>
+                    <section class="slide" id="community">
+                        <h3>通信</h3>
+                        <ul>
+                            <li class="fragment">一个 Actor 收到其他 Actor 的信息后，它可以根据需要作出各种相应</li>
+                            <li class="fragment">消息的类型可以是任意的，消息的内容也可以是任意的</li>
+                            <li class="fragment">处理多个 Actor 的请求：建立一个消息队列</li>
+                        </ul>
+                    </section>
+                </section>
+                
+                <section>
+                    <section class="slide" id="example-1">
+                        <h3>示例：消息传递</h3>
+                        <img class="container diagram" src="contents/Akka-Messaging.png"></img>
+                    </section>
+                    <section class="slide" id="example-2">
+                        <h3>示例：并发</h3>
+                        <img class="container diagram" src="contents/Akka-concurrency.png"></img>
+                    </section>
+                    <section class="slide" id="example-3">
+                        <h3>示例：Failover</h3>
+                        <img class="container diagram" src="contents/Akka-Failover.png"></img>
+                    </section>
+                    <section class="slide" id="example-4">
+                        <h3>示例：消息链</h3>
+                        <img class="container diagram" src="contents/AkkaComponentMatching.png"></img>
+                    </section>
+                </section>
+
+                
+				<section class="slide end" id="end">
+					<h1>The End</h1>
+					<h3>Halo9Pan</h3>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="reveal/lib/js/head.min.js"></script>
+		<script src="reveal/js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				width: '100%',
+				height: '100%',
+                minScale: 1,
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+                overview: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'reveal/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'reveal/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'reveal/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

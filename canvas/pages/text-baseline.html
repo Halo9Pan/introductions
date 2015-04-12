@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+        text-align: center;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas-element" width="480" height="360"></canvas>
+    <script>
+      var canvas = document.getElementById('canvas-element');
+      var context = canvas.getContext('2d');
+      var x = canvas.width / 2;
+      var y = canvas.height / 2;
+
+      context.font = '40pt Consolas';
+      // textAlign aligns text horizontally relative to placement
+      context.textAlign = 'center';
+      // textBaseline aligns text vertically relative to font style
+      context.textBaseline = 'middle';
+      context.fillStyle = 'hsla(240, 80%, 40%, 0.6)';
+      context.fillText('HTML5 Canvas!', x, y);
+    </script>
+  </body>
+</html>

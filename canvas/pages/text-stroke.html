@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+        text-align: center;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas-element" width="480" height="360"></canvas>
+    <script>
+      var canvas = document.getElementById('canvas-element');
+      var context = canvas.getContext('2d');
+      var x = 0;
+      var y = 120;
+
+      context.font = '50pt Verdana';
+      context.lineWidth = 2;
+      // stroke color
+      context.strokeStyle = 'hsla(240, 80%, 40%, 0.6)';
+      context.strokeText('HTML5 Canvas!', x, y);
+    </script>
+  </body>
+</html>

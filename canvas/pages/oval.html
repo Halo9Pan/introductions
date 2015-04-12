@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+        text-align: center;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas-element" width="480" height="360"></canvas>
+    <script>
+      var canvas = document.getElementById('canvas-element');
+      var context = canvas.getContext('2d');
+      var centerX = 0;
+      var centerY = 0;
+      var radius = 50;
+
+      // save state
+      context.save();
+
+      // translate context
+      context.translate(canvas.width / 2, canvas.height / 2);
+
+      // scale context horizontally
+      context.scale(2, 1);
+
+      // draw circle which will be stretched into an oval
+      context.beginPath();
+      context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+
+      // restore to original state
+      context.restore();
+
+      // apply styling
+      context.fillStyle = '#8ED6FF';
+      context.fill();
+      context.lineWidth = 5;
+      context.strokeStyle = 'black';
+      context.stroke();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:se="http://svg-edit.googlecode.com"
+	xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="777"
+	height="480">
+	<title>my vector image</title><!-- Created with Vector Paint - http://www.vectorpaint.yaks.com/ 
+		https://chrome.google.com/webstore/detail/hnbpdiengicdefcjecjbnjnoifekhgdo -->
+	<g style="" class="currentLayer">
+		<title>Layer 1</title>
+		<rect fill="#ED1B24" stroke="#DDDDDD" stroke-width="1"
+			id="amd" x="0" y="300" rx="5" ry="5"
+			width="200" height="100"></rect>
+		<rect fill="#76B900"  stroke="#DDDDDD" stroke-width="1"
+			id="nvidia" x="200" y="300" rx="5" ry="5"
+			width="200" height="100"></rect>
+		<text x="200" y="360" style="font-size: 2em; fill: #FFFFFF; text-anchor: middle;">GPU Hardware</text>
+		<rect fill="#009999" stroke="#DDDDDD" stroke-width="2"
+			id="driver" x="0" y="250" rx="5" ry="5"
+			width="400" height="50"></rect>
+		<text x="200" y="285" style="font-size: 2em; fill: #FFFFFF; text-anchor: middle;">Driver</text>
+		<rect fill="#5CCCCC" stroke="#DDDDDD" stroke-width="2"
+			id="runtime" x="0" y="200" rx="5" ry="5"
+			width="400" height="50"></rect>
+		<text x="200" y="235" style="font-size: 2em; fill: #FFFFFF; text-anchor: middle;">OpenCL Runtime</text>
+		<rect fill="#FFAA00" stroke="#DDDDDD" stroke-width="2"
+			id="framework" x="0" y="100" rx="5" ry="5"
+			width="400" height="100"></rect>
+		<text x="200" y="185" style="font-size: 2em; fill: #FFFFFF; text-anchor: middle;">OpenCL Framework</text>
+		<rect fill="#4671D5" stroke="#DDDDDD" stroke-width="2"
+			id="application" x="0" y="0" rx="5" ry="5"
+			width="400" height="100"></rect>
+		<text x="200" y="35" style="font-size: 2em; fill: #FFFFFF; text-anchor: middle;">Application</text>
+		<rect fill="#6C8CD5" stroke="#DDDDDD" stroke-width="2"
+			id="kernels" x="210" y="60" rx="5" ry="5"
+			width="180" height="40"></rect>
+		<text x="300" y="85" style="font-size: 1.2em; fill: #FFFFFF; text-anchor: middle;">OpenCL kernels</text>
+		<rect fill="#FFD073" stroke="#DDDDDD" stroke-width="2"
+			id="api" x="10" y="100" rx="5" ry="5"
+			width="180" height="40"></rect>
+		<text x="100" y="125" style="font-size: 1em; fill: #FFFFFF; text-anchor: middle;">OpenCL API</text>
+		<rect fill="#FFD073" stroke="#DDDDDD" stroke-width="2"
+			id="language" x="210" y="100" rx="5" ry="5"
+			width="180" height="40"></rect>
+		<text x="300" y="125" style="font-size: 1em; fill: #FFFFFF; text-anchor: middle;">OpenCL C Language</text>
+	</g>
+</svg>

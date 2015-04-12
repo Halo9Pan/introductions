@@ -1,0 +1,6 @@
+[submodule "reveal"]
+	path = reveal
+	url = https://github.com/hakimel/reveal.js
+[submodule "common"]
+	path = common
+	url = https://github.com/Halo9Pan/introduction-common.git

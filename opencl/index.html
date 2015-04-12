@@ -1,0 +1,1600 @@
+<!doctype html>
+<html lang="zh">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>OpenCL</title>
+
+		<link rel="shortcut icon" href="favicon.png" />
+
+		<meta name="description" content="Introduce OpenCL">
+		<meta name="author" content="Halo9Pan">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="reveal.js/css/reveal.min.css">
+		<link rel="stylesheet" href="reveal.js/css/theme/default.css" id="theme">
+		<link rel="stylesheet" href="styles/presentation.css">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<section class="slide begin">
+						<h1>OpenCL</h1>
+						<h3>走进高性能计算时代</h3>
+						<p>
+							<a href="http://halo9pan.info">Halo9Pan</a> / <a href="http://github.com/Halo9Pan">@Halo9Pan</a>
+						</p>
+					</section>
+					<section id="transitions">
+						<h3>转场样式</h3>
+						<p>
+							<a href="?transition=cube#/transitions">Cube</a> -
+							<a href="?transition=page#/transitions">Page</a> -
+							<a href="?transition=concave#/transitions">Concave</a> -
+							<a href="?transition=zoom#/transitions">Zoom</a> -
+							<a href="?transition=linear#/transitions">Linear</a> -
+							<a href="?transition=fade#/transitions">Fade</a> -
+							<a href="?transition=none#/transitions">None</a> -
+							<a href="?#/transitions">Default</a>
+						</p>
+					</section>
+	
+					<section id="themes">
+						<h3>主题</h3>
+						<p>
+							<a href="?#/themes">Default</a> -
+							<a href="?theme=sky#/themes">Sky</a> -
+							<a href="?theme=beige#/themes">Beige</a> -
+							<a href="?theme=simple#/themes">Simple</a> -
+							<a href="?theme=serif#/themes">Serif</a> -
+							<a href="?theme=night#/themes">Night</a> <br>
+							<a href="?theme=moon#/themes">Moon</a> -
+							<a href="?theme=solarized#/themes">Solarized</a>
+						</p>
+					</section>
+				</section>
+				
+				<section class="slide">
+					<h3>Agenda</h3>
+					<ul>
+						<li class="fragment">OpenCL是什么</li>
+						<li class="fragment">OpenCL名词</li>
+					</ul>
+					<aside class="notes">
+						
+					</aside>
+				</section>
+
+				<section>
+					<section class="slide">
+						<h3>OpenCL</h3>
+						<ul>
+							<li>OpenCL (<b>Open</b> <b>C</b>omputing <b>L</b>anguage，开放计算语言)</li>
+							<li>一个为异构平台编写程序的框架</li>
+							<li>异构平台可由CPU，GPU或其他类型的处理器组成</li>
+							<li>由一门用于编写kernels（在OpenCL设备上运行的函数）的语言（基于C99）和一组用于定义并控制平台的API组成</li>
+							<li>OpenCL提供了基于数据分区和任务分区的并行计算机制</li>
+						</ul>
+						<img alt="OpenCL" src="images/opencl.png">
+					</section>
+					<section class="slide">
+						<h3>OpenCL架构</h3>
+						<object type="image/svg+xml" data="images/opencl.svg">浏览器不支持SVG</object>
+					</section>
+					<section class="slide">
+						<h3>OpenCL类图</h3>
+						<img src="images/class-diagram.jpg" alt="OpenCL UML Class Diagram" height="80%" />
+					</section>
+				</section>
+
+				<section>
+					<section class="slide">
+						<h2>名词</h2>
+					</section>
+					<section class="slide glossary" id="application">
+						<dfn>Application</dfn>
+						<p>运行在<a href="#/host">host</a>和<a href="#/device">device</a>上程序的集合</p>
+					</section>
+					<section class="slide glossary" id="enqueue-api">
+						<dfn>Blocking and Non-Blocking Enqueue API calls</dfn>
+						<p><a href="#/enqueue-api">非堵塞队列</a>可以执行一个<a href="#/command-queue">command-queue</a>里面的<a href="#/command">command</a>，并立即返回结果给<a href="#/host">host</a></p>
+						<p><a href="#/enqueue-api">堵塞队列</a>直到<a href="#/command">command</a>完成才返回结果给<a href="#/host">host</a></p>
+					</section>
+					<section class="slide glossary" id="barrier">
+						<dfn>Barrier</dfn>
+						<details>
+							<summary><a href="#/command-queue">command-queue</a>barrier</summary>
+							<p>OpenCL API提供<a href="#/command-queue">command-queue</a>barrier</p>
+							<p>barrier命令确保<a href="#/command-queue">command-queue</a>里面已入队的<a href="#/command">command</a>全部执行完成，然后才会执行<a href="#/command-queue">command-queue</a>里面后续的<a href="#/command">command</a></p>
+						</details>
+						<details>
+							<summary><a href="#/work-group">work-group</a>barrier</summary>
+							<p>OpenCL C提供内建的<a href="#/work-group">work-group</a>barrier</p>
+							<p>内建的barrier命令用来确保在<a href="#/work-group">work-group</a>里面运行的<a href="#/work-item">work-item</a>之间的同步</p>
+							<p>barrier命令由在<a href="#/device">device</a>上运行的<a href="#/kernel">kernel</a>执行</p>
+							<p>所有在<a href="#/work-group">work-group</a>里面运行的<a href="#/work-item">work-item</a>在继续运行之前，必须在barrier处等待</p>
+						</details>
+					</section>
+					<section class="slide glossary" id="buffer">
+						<dfn>Buffer Object</dfn>
+						<p>线性的存储字节序列的内存对象</p>
+						<p>Buffer通过在<a href="#/device">device</a>上运行的<a href="#/kernel">kernel</a>里面的指针访问</p>
+						<p>Buffer可以通过OpenCL API在<a href="#/host">host</a>上操作</p>
+						<p>Buffer封装了以下信息：</p>
+						<dl>
+							<dd>size</dd>
+							<dd>属性和使用信息，分配范围</dd>
+							<dd>数据</dd>
+						</dl>
+					</section>
+					<section class="slide glossary" id="built-in-kernel">
+						<dfn>Built-in Kernel</dfn>
+						<p>Built-in Kernel是运行在OpenCL<a href="#/device">device</a>或者<a href="#/custom-device">custom device</a>上的一类<a href="#/kernel">kernel</a></p>
+						<p><a href="#/application">application</a>可以获得支持Built-in Kernel的<a href="#/device">device</a>或者<a href="#/custom-device">custom device</a>列表</p>
+						<p><a href="#/program">program</a>可以包含由OpenCL C编写的<a href="#/kernel">kernel</a>或者Built-in Kernel，但不能同时包含</p>
+					</section>
+					<section class="slide glossary" id="command">
+						<dfn>Command</dfn>
+						<p>由OpenCL提交到<a href="#/command-queue">command-queue</a>里面执行的操作</p>
+						<p>例如，控制在<a href="#/device">device</a>上的<a href="#/kernel">kernel</a>执行或者操作内存对象</p>
+					</section>
+					<section class="slide glossary" id="command-queue">
+						<dfn>Command-queue</dfn>
+						<p>容纳将在特定<a href="#/device">device</a>上运行的<a href="#/command">command</a>的对象</p>
+						<p>Command-queue又<a href="#/context">context</a>里面的特定<a href="#/device">device</a>创建</p>
+						<p>Command-queue里面的<a href="#/command">command</a>在队列里是有序的，但在执行时可以是<a href="#/in-order">in-order</a>执行，也可以是<a href="#/out-of-order">out-of-order</a>执行</p>
+					</section>
+					<section class="slide glossary" id="command-queue-barrier">
+						<dfn>Command-queue Barrier</dfn>
+						<p><a href="#/barrier">Barrier</a></p>
+					</section>
+					<section class="slide glossary" id="compute-device-memory">
+						<dfn>Compute Device Memory</dfn>
+						<p>一个或多个<a href="#/device">计算设备</a>的内存</p>
+					</section>
+					<section class="slide glossary" id="compute-unit">
+						<dfn>Compute Unit</dfn>
+						<p>一个OpenCL<a href="#/device">device</a>有一个或者多个Compute Unit</p>
+						<p>一个<a href="#/work-group">work-group</a>在一个Compute Unit运行</p>
+						<p>一个Compute Unit又由一个或者多个<a href="#/processing-element">processing element</a>和<a href="#/local-memory">local memory</a>组成</p>
+						<p>一个Compute Unit也可能包含专用的，<a href="#/processing-element">processing element</a>可以访问的纹理过滤单元</p>
+					</section>
+					<section class="slide glossary" id="concurrency">
+						<dfn>Concurrency</dfn>
+						<p>并发可以在系统中同时运行多个任务，但需要程序员在代码中做任务的调度，并确保并发时数据的一致性的</p>
+						<p>OpenCL基于并发而生，但是对并发的控制及数据的同步仍然需要在代码中自行处理。</p>
+					</section>
+					<section class="slide glossary" id="constant-memory">
+						<dfn>Constant Memory</dfn>
+						<p><a href="#/global-memory">global memory</a>中的一块区域，用来存储运行<a href="#/kernel">kernel</a>时用到的常量</p>
+						<p>Constant Memory由<a href="#/host">host</a>分配</p>
+					</section>
+					<section class="slide glossary" id="context">
+						<dfn>Context</dfn>
+						<p><a href="#/kernel">kernel</a>执行和内存管理及同步的一整套上下文</p>
+						<p>Context包含一系列的<a href="#/device">device</a>，可访问这些<a href="#/device">device</a>的内存，相应的内存属性，一个或多个用来执行<a href="#/kernel">kernel</a>或者操作<a href="#/memory-object">memory object</a>的<a href="#/command-queue">command-queue</a>组成</p>
+					</section>
+					<section class="slide glossary" id="custom-device">
+						<dfn>Custom Device</dfn>
+						<p>Custom Device实现了OpenCL Runtime但是不支持OpenCL C</p>
+						<p>Custom Device虽然可能不是可编程硬件，但是往往有更高的效率，比如DSP</p>
+					</section>
+					<section class="slide glossary" id="data-parallel">
+						<dfn>Data Parallel Programming Model</dfn>
+						<p>在一个<a href="#/program">program</a>做并发运算时，里面的数据结构是一致的</p>
+					</section>
+					<section class="slide glossary" id="device">
+						<dfn>Device</dfn>
+						<p>一个Device由一系列的<a href="#/compute-unit">compute unit</a>组成。</p>
+						<p>Device里面由<a href="#/command-queue">command-queue</a>控制<a href="#/command">command</a>队列。</p>
+						<p>GPU，多核CPU，或者DSP，Cell/B.E都是OpenCL的Device</p>
+					</section>
+					<section class="slide glossary" id="event">
+						<dfn>Event Object</dfn>
+						<p>Event Object封装了<a href="#/command">command</a>的操作状态，可以用于在<a href="#/context">context</a>内的同步操作</p>
+					</section>
+					<section class="slide glossary" id="event-wait-list">
+						<dfn>Event Wait List</dfn>
+						<p>Event Wait List由多个<a href="#/event">event object</a>组成，用于控制<a href="#/command">command</a>的开始执行</p>
+					</section>
+					<section class="slide glossary" id="global-id">
+						<dfn>Global ID</dfn>
+						<p>Global ID在<a href="#/kernel">kernel</a>执行时，全局唯一定义了一个<a href="#/work-item">work-item</a></p>
+						<p>Global ID是一个由(0, 0, … 0)开始的N维值</p>
+					</section>
+					<section class="slide glossary" id="global-memory">
+						<dfn>Global Memory</dfn>
+						<p>在<a href="#/context">context</a>内执行的所有<a href="#/work-item">work-item</a>都可以访问到的内存</p>
+						<p><a href="#/host">host</a>通过<a href="#/command">command</a>可以访问Global Memory，比如读，写，映射</p>
+					</section>
+					<section class="slide glossary" id="gl-share-group">
+						<dfn>GL share group</dfn>
+						<p>OpenCL应用可以使用OpenGL的buffer，texture和renderbuffer作为OpenCL的<a href="#/memory-object">memory object</a>，这样可以有效的在OpenCL和OpenGL之间共享数据。</p>
+						<p>OpenCL可以在<a href="#/kernel">kernel</a>里面读写OpenGL的</p><a href="#/memory-object">memory object</a>
+					</section>
+					<section class="slide glossary" id="handle">
+						<dfn>Handle</dfn>
+						<p>OpenCL里面的任何操作都是通过引用句柄来完成的</p>
+					</section>
+					<section class="slide glossary" id="host">
+						<dfn>Host</dfn>
+						<p>Host通过OpenCL API与<a href="#/context">context</a>交互</p>
+						<p>Host通常代表了一台主机，包含了一个或多个的<a href="#/device">device</a></p>
+					</section>
+					<section class="slide glossary" id="host-pointer">
+						<dfn>Host pointer</dfn>
+						<p>Host pointer一般是指在主机里的内存地址</p>
+					</section>
+					<section class="slide glossary" id="image-object">
+						<dfn>Image Object</dfn>
+						<p>储存2维或者3维结构数组的<a href="#/memory-object">memory object</a></p>
+						<p>Image Object只能被读或者写，而不能被映射</p>
+						<p>读操作通过<a href="#/sampler">sampler</a>操作</p>
+						<p>Image Object封装了以下信息</p>
+						<dl>
+							<dd>image的维度</dd>
+							<dd>image每个元素的描述</dd>
+							<dd>属性和使用信息，分配范围</dd>
+							<dd>image数据</dd>
+						</dl>
+					</section>
+					<section class="slide glossary" id="in-order">
+						<dfn>In-order Execution</dfn>
+						<p>OpenCL的一类执行模型，定义了<a href="#/command-queue">command-queue</a>里的<a href="#/command">command</a>顺序执行</p>
+					</section>
+					<section class="slide glossary" id="kernel">
+						<dfn>Kernel</dfn>
+						<p>Kernel是在<a href="#/program">program</a>里声明，在OpenCL<a href="#/device">device</a>里面执行的函数</p>
+						<p>Kernel在<a href="#/program">program</a>里用<code>__kernel</code>或者<code>kernel</code>关键字指定</p>
+					</section>
+					<section class="slide glossary" id="kernel-object">
+						<dfn>Kernel Object</dfn>
+						<p>Kernel Object封装了在<a href="#/program">program</a>里定义的<code>__kernel</code>函数和<code>__kernel</code>函数所使用的参数值</p>
+					</section>
+					<section class="slide glossary" id="local-id">
+						<dfn>Local ID</dfn>
+						<p>Local ID在<a href="#/kernel">kernel</a>里面执行的<a href="#/work-group">work-group</a>里面指定了唯一的<a href="#/work-item">work-item</a>ID</p>
+						<p>Local ID是一个由(0, 0, … 0)开始的N维值</p>
+					</section>
+					<section class="slide glossary" id="local-memory">
+						<dfn>Local Memory</dfn>
+						<p>分配给<a href="#/work-group">work-group</a>的内存，并且仅<a href="#/work-group">work-group</a>里面的<a href="#/work-item">work-item</a>可以访问</p>
+					</section>
+					<section class="slide glossary" id="marker">
+						<dfn>Marker</dfn>
+						<p>一种<a href="#/command">command</a>，可以给之前入队的<a href="#/command">command</a>打上标签</p>
+						<p>Marker<a href="#/command">command</a>会返回一个<a href="#/event">event</a>，<a href="#/application">application</a>可以等待这个<a href="#/event">event</a></p>
+						<p>例如可以等待Marker之前的命令全部完成</p>
+					</section>
+					<section class="slide glossary" id="memory">
+						<dfn>Memory Objects</dfn>
+						<p><a href="#/local-memory">Local Memory</a><a href="#/global-memory">Global Memory</a></p>
+						<p><a href="#/buffer">Buffer Object</a><a href="#/image-object">Image Object</a></p>
+					</section>
+					<section class="slide glossary" id="pools">
+						<dfn>Memory Regions (or Pools)</dfn>
+						<p>OpenCL中的一个确切的内存地址</p>
+						<p>不同的内存区域可能在物理上会重叠，但OpenCL在逻辑上会区分</p>
+						<p><a href="#/local-memory">Local Memory</a><a href="#/local-memory">Local Memory</a><a href="#/global-memory">Global Memory</a><a href="#/global-memory">Global Memory</a></p>
+					</section>
+					<section class="slide glossary" id="out-order">
+						<dfn>Out-of-Order Execution</dfn>
+						<p>OpenCL的一类执行模型，定义了<a href="#/command-queue">command-queue</a>里的<a href="#/command">command</a>非顺序执行</p>
+						<p>执行顺序通过<a href="#/command-queue-barrier">Command-queue Barrier</a>和<a href="#/event-wait-list">Event Wait List</a>控制</p>
+					</section>
+					<section class="slide glossary" id="parent-device">
+						<dfn>Parent device</dfn>
+						<p>OpenCL的<a href="#/device">device</a>可以创建<a href="#/sub-device">sub device</a></p>
+						<p>但不是所有的parent device都是<a href="#/root-device">root device</a>，<a href="#/root-device">root device</a>分拆后的<a href="#/sub-device">sub device</a>可以进一步分拆。在这种场景下，第一层的<a href="#/sub-device">sub device</a>就是第二层的parent device，但是不是<a href="#/root-device">root device</a></p>
+					</section>
+					<section class="slide glossary" id="platform">
+						<dfn>Platform</dfn>
+						<p>OpenCL管理的<a href="#/host">host</a>和<a href="#/device">device</a>的集合，允许<a href="#/application">application</a>共享<a href="#/resource">resource</a>并在<a href="#/device">device</a>上执行<a href="#/kernel">kernel</a></p>
+					</section>
+					<section class="slide glossary" id="private-memory">
+						<dfn>Private Memory</dfn>
+						<p>由<a href="#/work-item">work-item</a>私有的内存区域</p>
+						<p>在一个<a href="#/work-item">work-item</a>private memory里面的数据无法被其它的<a href="#/work-item">work-item</a>访问</p>
+					</section>
+					<section class="slide glossary" id="processing-element">
+						<dfn>Processing Element</dfn>
+						<p>虚拟的标量处理器</p>
+						<p>一个<a href="#/work-item">work-item</a>可能运行在一个或多个Processing Element上</p>
+						<p><a href="#/local-memory">Local Memory</a><a href="#/local-memory">Local Memory</a><a href="#/global-memory">Global Memory</a><a href="#/global-memory">Global Memory</a></p>
+					</section>
+					<section class="slide glossary" id="program">
+						<dfn>Program</dfn>
+						<p>OpenCL Program由一系列的<a href="#/kernel">kernel</a>组成</p>
+						<p>Program也包含<code>__kernel</code>函数调用的函数和常量数据</p>
+						<p><a href="#/local-memory">Local Memory</a><a href="#/local-memory">Local Memory</a><a href="#/global-memory">Global Memory</a><a href="#/global-memory">Global Memory</a></p>
+					</section>
+					<section class="slide glossary" id="program-object">
+						<dfn>Program Object</dfn>
+						<p>Program Object封装了以下信息</p>
+						<dl>
+							<dd><a href="#/context">context</a>的引用</dd>
+							<dd><a href="#/program">program</a>的源码或者二进制</dd>
+							<dd>build参数，build日志，build用到的<a href="#/device">device</a></dd>
+							<dd>最近引用的<a href="#/kernel">kernel</a></dd>
+						</dl>
+					</section>
+					<section class="slide glossary" id="reference-count">
+						<dfn>Reference Count</dfn>
+						<p>OpenCL对象的生命周期由Reference Count决定，Reference Count表示引用该对象的内部数量</p>
+						<p>在OpenCL里创建一个对象后，该对象的Reference Count变为1，<code>retain</code>API(<code>clRetainContext</code>, <code>clRetainCommandQueue</code>...)会增加Reference Count，<code>release</code>API(<code>clReleaseContext</code>, <code>clReleaseCommandQueue</code>...)会减少Reference Count</p>
+						<p>当Reference Count为0后，OpenCL会回收对象的资源</p>
+					</section>
+					<section class="slide glossary" id="relaxed-consistency">
+						<dfn>Relaxed Consistency</dfn>
+						<p>一种内存一致性模型，不同<a href="#/work-item">work-item</a>或者<a href="#/command">command</a>可见的内存数据可以不一致，但是在<a href="#/barrier">barrier</a>或者其它同步点需要做同步处理，使数据一致</p>
+					</section>
+					<section class="slide glossary" id="resource">
+						<dfn>Resource</dfn>
+						<p>常用的Resource是指<a href="#/context">context</a>，<a href="#/command-queue">command-queue</a>，<a href="#/program">program</a>，<a href="#/kernel">kernel</a>和<a href="#/memory-object">memory object</a></p>
+						<p>Computational Resources指一系列的运算硬件，比如<a href="#/host">host</a>，<a href="#/device">device</a>，<a href="#/compute-unit">compute unit</a>和<a href="#/processing-element">processing element</a></p>
+					</section>
+					<section class="slide glossary" id="retain-release">
+						<dfn>Retain, Release</dfn>
+						<p>增加(retain)或减少(release)对OpenCL对象的引用数</a></p>
+						<p>Retain和Release的机制保证系统不会在对象相关的操作完成之前回收对象</p>
+					</section>
+					<section class="slide glossary" id="root-device">
+						<dfn>Root device</dfn>
+						<p>OpenCL的根<a href="#/device">device</a>，不存在同级的并行<a href="#/device">device</a></p>
+					</section>
+					<section class="slide glossary" id="sampler">
+						<dfn>Sampler</dfn>
+						<p>当一个image对象读入到<a href="#/kernel">kernel</a>中时，需要用Sampler来取样</p>
+						<p>Image的读取函数会有一个sampler作为参数</p>
+						<p>Sampler定义了image对象的地址模式（比如超出image坐标的数据处理），过滤模式已经image坐标轴是规格化或非规格化数值</p>
+					</section>
+					<section class="slide glossary" id="simd">
+						<dfn>SIMD: Single Instruction Multiple Data</dfn>
+						<p>一个<a href="#/kernel">kernel</a>同时在多个<a href="#/processing-element">processing element</a>上运行，这些<a href="#/processing-element">processing element</a>有自己的数据并<b>共享</b>一个指令计数器</p>
+						<p>所有的<a href="#/processing-element">processing element</a>都执行严格一致的指令</p>
+					</section>
+					<section class="slide glossary" id="spmd">
+						<dfn>SPMD: Single Program Multiple Data</dfn>
+						<p>一个<a href="#/kernel">kernel</a>同时在多个<a href="#/processing-element">processing element</a>上运行，这些<a href="#/processing-element">processing element</a>有自己的数据和<b>独立</b>的指令计数器</p>
+						<p>因此，虽然所有的计算资源上运行相同的<a href="#/kernel">kernel</a>，但它们维护自己的指令计数器和<a href="#/kernel">kernel</a>中分支，指令的实际顺序在整个<a href="#/processing-element">processing element</a>组内是完全不同的</p>
+					</section>
+					<section class="slide glossary" id="task-parallel">
+						<dfn>Task Parallel Programming Model</dfn>
+						<p>计算被分解成多个并发的任务，每个任务是一个在<a href="#/work-item">work-item</a>数量为1的<a href="#/work-group">work-group</a>里面运行的<a href="#/kernel">kernel</a></p>
+						<p>并发的任务可以运行在不同的<a href="#/kernel">kernel</a>里面</p>
+					</section>
+					<section class="slide glossary" id="thread-safe">
+						<dfn>Thread-safe</dfn>
+						<p>如果在多个<a href="#/host">host</a>线程同时调用的时候，内部状态由OpenCL管理并保持一致，则认为这个OpenCL的API调用是线程安全的</p>
+						<p>线程安全的OpenCL的API允许一个<a href="#/application">application</a>的多个<a href="#/host">host</a>线程同时调用，而不必在<a href="#/host">host</a>的线程之间控制</p>
+					</section>
+					<section class="slide glossary" id="work-group">
+						<dfn>Work-group</dfn>
+						<p>一系列的在同一个<a href="#/compute-unit">compute unit</a>上运行的<a href="#/work-item">work-item</a></p>
+						<p>在同一个Work-group里面运行的<a href="#/work-item">work-item</a>执行同一个<a href="#/kernel">kernel</a>，并且共享<a href="#/local-memory">local memory</a>和<a href="#/work-group-barrier">work group barrier</a></p>
+					</section>
+					<section class="slide glossary" id="work-group-barrier">
+						<dfn>Work-group Barrier</dfn>
+						<p><a href="#/barrier">Barrier</a></p>
+					</section>
+					<section class="slide glossary" id="work-item">
+						<dfn>Work-item</dfn>
+						<p>在一个<a href="#/device">device</a>上通过一个<a href="#/command">command</a>调用<a href="#/kernel">kernel</a>并行执行</p>
+						<p><a href="#/work-group">work-group</a>在一个<a href="#/compute-unit">compute unit</a>上运行，但是work-item会在一个或者多个<a href="#/processing-element">processing element</a>上运行</p>
+						<p>一个work-item有唯一的<a href="#/global-id">global ID</a>和<a href="#/local-id">local ID</a></p>
+					</section>
+				</section>
+
+				<section>
+					<section class="slide">
+						<h2>架构</h2>
+					</section>
+					<section class="slide">
+						<h3>OpenCL架构</h3>
+						<ul>
+							<li class="fragment">硬件模型</li>
+							<li class="fragment">执行模型</li>
+							<li class="fragment">内存模型</li>
+							<li class="fragment">编程模型</li>
+						</ul>
+					</section>
+					<section class="slide">
+						<h3>硬件模型</h3>
+						<img src="images/platform-model.jpg" alt="OpenCL Platform Model" width="400" height="240"/>
+						<ul>
+							<li>一个<a href="#/host">host</a>有一个或者多个<a href="#/device">device</a></li>
+							<li>一个<a href="#/device">device</a>可以分成一个或者多个<a href="#/compute-unit">compute unit</a></li>
+							<li>一个<a href="#/compute-unit">compute unit</a>可以进一步分成一个或者多个<a href="#/processing-element">processing element</a></li>
+						</ul>
+					</section>
+					<section class="slide">
+						<h3>执行模型</h3>
+						<ul>
+							<li>OpenCL <a href="#/application">application</a>一般包含两个部分：在一个或多个<a href="#/device">device</a>上执行的<a href="#/kernel">kernel</a>，以及运行在<a href="#/host">host</a>上的 host program</li>
+							<li><a href="#/kernel">kernel</a>如何运行，决定了OpenCL的执行模型</li>
+							<li><a href="#/kernel">kernel</a>的实例是一个<a href="#/work-item">work-item</a>，并通过 index space 定位</li>
+							<li>一系列的<a href="#/work-item">work-item</a>组成<a href="#/work-group">work-group</a>，每一个<a href="#/work-group">work-group</a>有唯一的<a href="#/work-group">work-group</a> ID</li>
+							<li>OpenCL里面的 index space 被称为 NDRange，是一个N维的 index space （N=1,2,3）一系列的<a href="#/work-item">work-item</a>组成<a href="#/work-group">work-group</a>，每一个<a href="#/work-group">work-group</a>有唯一的<a href="#/work-group">work-group</a> ID</li>
+						</ul>
+					</section>
+					<section class="slide">
+						<h3>NDRange</h3>
+						<img src="images/ndrange-index-space.jpg" alt="NDRange index space" height="80%"/>
+					</section>
+					<section class="slide">
+						<h3>Context 以及 Command Queues</h3>
+						<dl>
+							<dt>Context 包含下面的内容</dt>
+							<dd><a href="#/device">Devices</a>：<a href="#/host">host</a>使用的OpenCL<a href="#/device">device</a></dd>
+							<dd><a href="#/kernel">Kernels</a>：在OpenCL<a href="#/device">device</a>上运行的OpenCL函数</dd>
+							<dd><a href="#/program-object">Program Objects</a>：能被<a href="#/kernel">kernel</a>执行的二进制或者OpenCL C源码</dd>
+							<dd><a href="#/memory-object">Memory Objects</a></dd>
+						</dl>
+						<br />
+						<dl>
+							<dt>Command Queues 的类型</dt>
+							<dd>Kernel execution commands：在<a href="#/device">device</a>的<a href="#/processing-element">processing element</a>上执行<a href="#/kernel">kernel</a></dd>
+							<dd>Memory commands：在<a href="#/memory-object">memory object</a>之间传递数据，从<a href="#/host">host</a>的地址空间映射<a href="#/memory-object">memory object</a></dd>
+							<dd>Synchronization commands：控制<a href="#/command">command</a>执行的顺序</dd>
+						</dl>
+					</section>
+					<section class="slide">
+						<h3>内存模型</h3>
+						<ul>
+							<li><a href="#/global-memory">Global Memory</a>：所有<a href="#/work-group">work-group</a>里的所有<a href="#/work-item">work-item</a>都可以读写的内存区域。根据<a href="#/device">device</a>的不通，有可能存在缓存</li>
+							<li><a href="#/constant-memory">Constant Memory</a>：<a href="#/global-memory">Global Memory</a>里的一块内存区域，用于存放<a href="#/kernel">kernel</a>运行时的常量</li>
+							<li><a href="#/local-memory">Local Memory</a>：在<a href="#/work-group">work-group</a>中使用的内存区域，<a href="#/work-group">work-group</a>里面所有的<a href="#/work-item">work-item</a>都可以访问</li>
+							<li><a href="#/private-memory">Private Memory</a>：<a href="#/work-item">Work-item</a>的私有内存区域，其它的<a href="#/work-item">work-item</a>无法访问</li>
+						</ul>
+						<table>
+							<thead>
+								<tr>
+									<th></th>
+									<th>Global</th>
+									<th>Constant</th>
+									<th>Local</th>
+									<th>Private</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><b>Host</b></td>
+									<td>动态分配<br/>读/写</td>
+									<td>动态分配<br/>读/写</td>
+									<td>动态分配<br/>无法访问</td>
+									<td>不分配<br/>无法访问</td>
+								</tr>
+								<tr>
+									<td><b>Kernel</b></td>
+									<td>不分配<br/>读/写</td>
+									<td>静态分配<br/>读</td>
+									<td>静态分配<br/>读/写</td>
+									<td>静态分配<br/>读/写</td>
+								</tr>
+							</tbody>
+						</table>
+					</section>
+					<section class="slide">
+						<h3>内存结构</h3>
+						<img src="images/memory.png" alt="Conceptual OpenCL device architecture with processing elements (PE), compute units and devices" height="80%"/>
+					</section>
+					<section class="slide">
+						<h3>编程模型</h3>
+						<ul>
+							<li>Data Parallel Programming Model</li>
+							<li>Task Parallel Programming Model</li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<section class="slide">
+						<h2>Platform API</h2>
+					</section>
+					<section class="slide">
+						<h3>Querying Platform Info</h3>
+						<b>clGetPlatformIDs</b>
+						<pre><code data-trim>
+cl_int clGetPlatformIDs (cl_uint num_entries,
+                         cl_platform_id *platforms,
+                         cl_uint *num_platforms)
+						</code></pre>
+						<b>clGetPlatformInfo</b>
+						<pre><code data-trim>
+cl_int clGetPlatformInfo (cl_platform_id platform,
+                          cl_platform_info param_name,
+                          size_t param_value_size,
+                          void *param_value,
+                          size_t *param_value_size_ret)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Querying Devices</h3>
+						<b>clGetDeviceIDs</b>
+						<pre><code data-trim>
+cl_int clGetDeviceIDs (cl_platform_id platform,
+                       cl_device_type device_type,
+                       cl_uint num_entries,
+                       cl_device_id *devices,
+                       cl_uint *num_devices)
+						</code></pre>
+						<b>clGetDeviceInfo</b>
+						<pre><code data-trim>
+cl_int clGetDeviceInfo (cl_device_id device,
+                        cl_device_info param_name,
+                        size_t param_value_size,
+                        void *param_value,
+                        size_t *param_value_size_ret)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Partitioning a Device</h3>
+						<b>clCreateSubDevices</b>
+						<pre><code data-trim>
+cl_int clCreateSubDevices (cl_device_id in_device,
+                           const cl_device_partition_property *properties,
+                           cl_uint num_devices,
+                           cl_device_id *out_devices,
+                           cl_uint *num_devices_ret)
+						</code></pre>
+						<b>clRetainDevice</b>
+						<pre><code data-trim>
+cl_int clRetainDevice (cl_device_id device)
+						</code></pre>
+						<b>clReleaseDevice</b>
+						<pre><code data-trim>
+cl_int clReleaseDevice (cl_device_id device)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Contexts</h3>
+						<b>clCreateContext</b>
+						<pre><code data-trim>
+cl_context
+clCreateContext (const cl_context_properties *properties,
+                 cl_uint num_devices,
+                 const cl_device_id *devices,
+                 void (CL_CALLBACK *pfn_notify)(const char *errinfo,
+                                                const void *private_info, size_t cb,
+                                                void *user_data),
+                 void *user_data,
+                 cl_int *errcode_ret)
+						</code></pre>
+						<b>clGetContextInfo</b>
+						<pre><code data-trim>
+cl_int clGetContextInfo (cl_context context,
+                         cl_context_info param_name,
+                         size_t param_value_size,
+                         void *param_value,
+                         size_t *param_value_size_ret)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Contexts</h3>
+						<b>clCreateContext</b>
+						<b>clCreateContextFromType</b>
+						<pre><code data-trim>
+cl_context
+clCreateContextFromType (const cl_context_properties *properties,
+                         cl_device_type device_type,
+                         void (CL_CALLBACK *pfn_notify)(const char *errinfo,
+                                                        const void *private_info, size_t cb,
+                                                        void *user_data),
+                         void *user_data,
+                         cl_int *errcode_ret)
+						</code></pre>
+						<b>clRetainContext</b>
+						<pre><code data-trim>
+cl_int clRetainContext (cl_context context)
+						</code></pre>
+						<b>clReleaseContext</b>
+						<pre><code data-trim>
+cl_int clReleaseContext (cl_context context)
+						</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<section class="slide">
+						<h2>Runtime API</h2>
+					</section>
+					<section class="slide subsection">
+						<h3>Command Queues</h3>
+					</section>
+					<section class="slide">
+						<h3>Command Queues</h3>
+						<b>clCreateCommandQueue</b>
+						<pre><code data-trim>
+cl_command_queue clCreateCommandQueue (cl_context context,
+                                       cl_device_id device,
+                                       cl_command_queue_properties properties,
+                                       cl_int *errcode_ret)
+						</code></pre>
+						<b>clRetainCommandQueue</b>
+						<pre><code data-trim>
+cl_int clRetainCommandQueue (cl_command_queue command_queue)
+						</code></pre>
+						<b>clReleaseCommandQueue</b>
+						<pre><code data-trim>
+cl_int clReleaseCommandQueue (cl_command_queue command_queue)
+						</code></pre>
+						<b>clGetCommandQueueInfo</b>
+						<pre><code data-trim>
+cl_int clGetCommandQueueInfo (cl_command_queue command_queue,
+                              cl_command_queue_info param_name,
+                              size_t param_value_size,
+                              void *param_value,
+                              size_t *param_value_size_ret)
+						</code></pre>
+					</section>
+					<section class="slide subsection">
+						<h3>Buffer</h3>
+					</section>
+					<section class="slide">
+						<h3>Buffer Objects</h3>
+						<b>clCreateBuffer</b>
+						<pre><code data-trim>
+cl_mem clCreateBuffer (cl_context context,
+                       cl_mem_flags flags,
+                       size_t size,
+                       void *host_ptr,
+                       cl_int *errcode_ret)
+						</code></pre>
+						<b>clCreateSubBuffer</b>
+						<pre><code data-trim>
+cl_mem clCreateSubBuffer (cl_mem buffer,
+                          cl_mem_flags flags,
+                          cl_buffer_create_type buffer_create_type,
+                          const void *buffer_create_info,
+                          cl_int *errcode_ret)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Buffer Objects</h3>
+						<b>clEnqueueReadBuffer</b>
+						<pre><code data-trim>
+cl_int clEnqueueReadBuffer (cl_command_queue command_queue,
+                            cl_mem buffer,
+                            cl_bool blocking_read,
+                            size_t offset,
+                            size_t size,
+                            void *ptr,
+                            cl_uint num_events_in_wait_list,
+                            const cl_event *event_wait_list,
+                            cl_event *event)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Buffer Objects</h3>
+						<b>clEnqueueWriteBuffer</b>
+						<pre><code data-trim>
+cl_int clEnqueueWriteBuffer (cl_command_queue command_queue,
+                             cl_mem buffer,
+                             cl_bool blocking_write,
+                             size_t offset,
+                             size_t size,
+                             const void *ptr,
+                             cl_uint num_events_in_wait_list,
+                             const cl_event *event_wait_list,
+                             cl_event *event)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Buffer Objects</h3>
+						<b>clEnqueueReadBufferRect</b>
+						<p>入队一个 command，将一块2D或3D矩形区域从buffer object写到host的内存中</p>
+						<pre><code data-trim>
+cl_int clEnqueueReadBufferRect (cl_command_queue command_queue,
+                                cl_mem buffer,
+                                cl_bool blocking_read,
+                                const size_t *buffer_origin,
+                                const size_t *host_origin,
+                                const size_t *region,
+                                size_t buffer_row_pitch,
+                                size_t buffer_slice_pitch,
+                                size_t host_row_pitch,
+                                size_t host_slice_pitch,
+                                void *ptr,
+                                cl_uint num_events_in_wait_list,
+                                const cl_event *event_wait_list,
+                                cl_event *event)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Buffer Objects</h3>
+						<b>clEnqueueWriteBufferRect</b>
+						<p>入队一个 command，将一块2D或3D矩形区域从host的内存中写入到buffer object</p>
+						<pre><code data-trim>
+cl_int clEnqueueWriteBufferRect (cl_command_queue command_queue,
+                                 cl_mem buffer,
+                                 cl_bool blocking_write,
+                                 const size_t *buffer_origin,
+                                 const size_t *host_origin,
+                                 const size_t *region,
+                                 size_t buffer_row_pitch,
+                                 size_t buffer_slice_pitch,
+                                 size_t host_row_pitch,
+                                 size_t host_slice_pitch,
+                                 const void *ptr,
+                                 cl_uint num_events_in_wait_list,
+                                 const cl_event *event_wait_list,
+                                 cl_event *event)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Buffer Objects</h3>
+						<b>clEnqueueCopyBuffer</b>
+						<p>入队一个 command，将<code>src_buffer</code>指定的buffer object拷贝到由<code>dst_buffer</code>指定的buffer object</p>
+						<pre><code data-trim>
+cl_int clEnqueueCopyBuffer (cl_command_queue command_queue,
+                            cl_mem src_buffer,
+                            cl_mem dst_buffer,
+                            size_t src_offset,
+                            size_t dst_offset,
+                            size_t size,
+                            cl_uint num_events_in_wait_list,
+                            const cl_event *event_wait_list,
+                            cl_event *event)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Buffer Objects</h3>
+						<b>clEnqueueCopyBufferRect</b>
+						<p>入队一个 command，将一块2D或3D矩形区域从<code>src_buffer</code>指定的buffer object拷贝到由<code>dst_buffer</code>指定的buffer object</p>
+						<pre><code data-trim>
+cl_int clEnqueueCopyBufferRect (cl_command_queue command_queue,
+                                cl_mem src_buffer,
+                                cl_mem dst_buffer,
+                                const size_t *src_origin,
+                                const size_t *dst_origin,
+                                const size_t *region,
+                                size_t src_row_pitch,
+                                size_t src_slice_pitch,
+                                size_t dst_row_pitch,
+                                size_t dst_slice_pitch,
+                                cl_uint num_events_in_wait_list,
+                                const cl_event *event_wait_list,
+                                cl_event *event)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Buffer Objects</h3>
+						<b>clEnqueueFillBuffer</b>
+						<p>入队一个 command，通过<code>pattern</code>和<code>pattern_size</code>过滤一个buffer object</p>
+						<pre><code data-trim>
+cl_int clEnqueueFillBuffer (cl_command_queue command_queue,
+                            cl_mem buffer,
+                            const void *pattern,
+                            size_t pattern_size,
+                            size_t offset,
+                            size_t size,
+                            cl_uint num_events_in_wait_list,
+                            const cl_event *event_wait_list,
+                            cl_event *event)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Buffer Objects</h3>
+						<b>clEnqueueMapBuffer</b>
+						<p>入队一个 command，将<code>buffer</code>指定的buffer object映射到host的内存空间中，并返回一个指向映射空间的指针</p>
+						<pre><code data-trim>
+void * clEnqueueMapBuffer (cl_command_queue command_queue,
+                           cl_mem buffer,
+                           cl_bool blocking_map,
+                           cl_map_flags map_flags,
+                           size_t offset,
+                           size_t size,
+                           cl_uint num_events_in_wait_list,
+                           const cl_event *event_wait_list,
+                           cl_event *event,
+                           cl_int *errcode_ret)
+						</code></pre>
+					</section>
+					<section class="slide subsection">
+						<h3>Image</h3>
+					</section>
+					<section class="slide">
+						<h3>Image Objects</h3>
+						<p>Image 格式描述</p>
+						<pre><code data-trim>
+typedef struct _cl_image_format {
+        cl_channel_order  image_channel_order;
+        cl_channel_type   image_channel_data_type;
+} cl_image_format;
+						</code></pre>
+						<p>Image 描述</p>
+						<pre><code data-trim>
+typedef struct _cl_image_desc {
+        cl_mem_object_type  image_type,
+        size_t              image_width;
+        size_t              image_height;
+        size_t              image_depth;
+        size_t              image_array_size;
+        size_t              image_row_pitch;
+        size_t              image_slice_pitch;
+        cl_uint             num_mip_levels;
+        cl_uint             num_samples;
+        cl_mem              buffer;
+} cl_image_desc;
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Image Objects</h3>
+						<b>clCreateImage</b>
+						<p>创建 1D image，1D image buffer，1D image array，2D image，2D image array 和 3D image object</p>
+						<pre><code data-trim>
+cl_mem clCreateImage (cl_context context,
+                      cl_mem_flags flags,
+                      const cl_image_format *image_format,
+                      const cl_image_desc *image_desc,
+                      void *host_ptr,
+                      cl_int *errcode_ret)
+						</code></pre>
+						<b>clGetSupportedImageFormats</b>
+						<p>获取OpenCL实现所支持的 image 格式</p>
+						<pre><code data-trim>
+cl_int clGetSupportedImageFormats (cl_context context,
+                                   cl_mem_flags flags,
+                                   cl_mem_object_type image_type,
+                                   cl_uint num_entries,
+                                   cl_image_format *image_formats,
+                                   cl_uint *num_image_formats)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Image Objects</h3>
+						<b>clEnqueueReadImage</b>
+						<p>入队一个 command，从 image 或者 image array 对象读取到 host 的内存中</p>
+						<pre><code data-trim>
+cl_int clEnqueueReadImage (cl_command_queue command_queue,
+                           cl_mem image,
+                           cl_bool blocking_read,
+                           const size_t *origin,
+                           const size_t *region,
+                           size_t row_pitch,
+                           size_t slice_pitch,
+                           void *ptr,
+                           cl_uint num_events_in_wait_list,
+                           const cl_event *event_wait_list,
+                           cl_event *event)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Image Objects</h3>
+						<b>clEnqueueWriteImage</b>
+						<p>入队一个 command，从 host 的内存中将数据写入到 image 或者 image array 对象</p>
+						<pre><code data-trim>
+cl_int clEnqueueWriteImage (cl_command_queue command_queue,
+                            cl_mem image,
+                            cl_bool blocking_write,
+                            const size_t *origin,
+                            const size_t *region,
+                            size_t input_row_pitch,
+                            size_t input_slice_pitch,
+                            const void * ptr,
+                            cl_uint num_events_in_wait_list,
+                            const cl_event *event_wait_list,
+                            cl_event *event)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Image Objects</h3>
+						<b>clEnqueueCopyImage</b>
+						<p>入队一个 command，拷贝 image 对象，<code>src_image</code>和<code>dst_image</code>可以为 1D, 2D, 3D image 或者 a 1D, 2D image array</p>
+						<pre><code data-trim>
+cl_int clEnqueueCopyImage (cl_command_queue command_queue,
+                           cl_mem src_image,
+                           cl_mem dst_image,
+                           const size_t *src_origin,
+                           const size_t *dst_origin,
+                           const size_t *region,
+                           cl_uint num_events_in_wait_list,
+                           const cl_event *event_wait_list,
+                           cl_event *event)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Image Objects</h3>
+						<b>clEnqueueFillImage</b>
+						<p>入队一个 command，将 image 对象填充特定的颜色<code>fill_color</code></p>
+						<pre><code data-trim>
+cl_int clEnqueueFillImage (cl_command_queue command_queue,
+                           cl_mem image,
+                           const void *fill_color,
+                           const size_t *origin,
+                           const size_t *region,
+                           cl_uint num_events_in_wait_list,
+                           const cl_event *event_wait_list,
+                           cl_event *event)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Image Objects</h3>
+						<b>clEnqueueCopyImageToBuffer</b>
+						<p>入队一个 command，拷贝 image 对象<code>src_image</code>到 buffer 对象<code>dst_buffer</code></p>
+						<pre><code data-trim>
+cl_int clEnqueueCopyImageToBuffer (cl_command_queue command_queue,
+                                   cl_mem src_image,
+                                   cl_mem dst_buffer,
+                                   const size_t *src_origin,
+                                   const size_t *region,
+                                   size_t dst_offset,
+                                   cl_uint num_events_in_wait_list,
+                                   const cl_event *event_wait_list,
+                                   cl_event *event)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Image Objects</h3>
+						<b>clEnqueueCopyBufferToImage</b>
+						<p>入队一个 command，拷贝 buffer 对象<code>dst_buffer</code>到 image 对象<code>src_image</code></p>
+						<pre><code data-trim>
+cl_int clEnqueueCopyBufferToImage (cl_command_queue command_queue,
+                                   cl_mem src_buffer,
+                                   cl_mem dst_image,
+                                   size_t src_offset,
+                                   const size_t *dst_origin,
+                                   const size_t *region,
+                                   cl_uint num_events_in_wait_list,
+                                   const cl_event *event_wait_list,
+                                   cl_event *event)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Image Objects</h3>
+						<b>clEnqueueMapImage</b>
+						<p>入队一个 command，将 image 对象<code>image</code>内的一块区域映射到 host 的内存空间，并返回一个指向该空间的指针</p>
+						<pre><code data-trim>
+void * clEnqueueMapImage (cl_command_queue command_queue,
+                          cl_mem image,
+                          cl_bool blocking_map,
+                          cl_map_flags map_flags,
+                          const size_t *origin,
+                          const size_t *region,
+                          size_t *image_row_pitch,
+                          size_t *image_slice_pitch,
+                          cl_uint num_events_in_wait_list,
+                          const cl_event *event_wait_list,
+                          cl_event *event,
+                          cl_int *errcode_ret)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Image Objects</h3>
+						<b>clGetImageInfo</b>
+						<p>获取 image 对象<code>image</code>的信息</p>
+						<pre><code data-trim>
+cl_int clGetImageInfo (cl_mem image,
+                       cl_image_info param_name,
+                       size_t param_value_size,
+                       void *param_value,
+                       size_t *param_value_size_ret)
+						</code></pre>
+					</section>
+					<section class="slide subsection">
+						<h3>Memory</h3>
+					</section>
+					<section class="slide">
+						<h3>Memory Objects</h3>
+						<b>clRetainMemObject</b>
+						<pre><code data-trim>
+cl_int clRetainMemObject (cl_mem memobj)
+						</code></pre>
+						<b>clReleaseMemObject</b>
+						<pre><code data-trim>
+cl_int clReleaseMemObject (cl_mem memobj)
+						</code></pre>
+						<b>clSetMemObjectDestructorCallback</b>
+						<p>注册一个 memory 对象销毁时的回调函数</p>
+						<pre><code data-trim>
+cl_int clSetMemObjectDestructorCallback (cl_mem memobj,
+                                         void (CL_CALLBACK *pfn_notify)(cl_mem memobj,
+                                                                        void *user_data),
+                                         void *user_data)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Memory Objects</h3>
+						<b>clEnqueueUnmapMemObject</b>
+						<p>入队一个 command，将之前映射过的 memory 对象取消映射关系</p>
+						<pre><code data-trim>
+cl_int clEnqueueUnmapMemObject (cl_command_queue command_queue,
+                                cl_mem memobj,
+                                void *mapped_ptr,
+                                cl_uint num_events_in_wait_list,
+                                const cl_event *event_wait_list,
+                                cl_event *event)
+						</code></pre>
+						<b>clEnqueueMigrateMemObjects</b>
+						<p>入队一个 command，用于在不同的 device 间同步 memory 对象</p>
+						<pre><code data-trim>
+cl_int clEnqueueMigrateMemObjects (cl_command_queue command_queue,
+                                   cl_uint num_mem_objects,
+                                   const cl_mem *mem_objects,
+                                   cl_mem_migration_flags flags,
+                                   cl_uint num_events_in_wait_list,
+                                   const cl_event *event_wait_list,
+                                   cl_event *event)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Memory Objects</h3>
+						<b>clGetMemObjectInfo</b>
+						<p>获取 memory 对象<code>memobj</code>的信息</p>
+						<pre><code data-trim>
+cl_int clGetMemObjectInfo (cl_mem memobj,
+                           cl_mem_info param_name,
+                           size_t param_value_sizMemorye,
+                           void *param_value,
+                           size_t *param_value_size_ret)
+						</code></pre>
+					</section>
+					<section class="slide subsection">
+						<h3>Sampler</h3>
+					</section>
+					<section class="slide">
+						<h3>Sampler Objects</h3>
+						<b>clCreateSampler</b>
+						<p>创建 sampler 对象<code>cl_sampler</code></p>
+						<pre><code data-trim>
+cl_sampler clCreateSampler (cl_context context,
+                            cl_bool normalized_coords,
+                            cl_addressing_mode addressing_mode,
+                            cl_filter_mode filter_mode,
+                            cl_int *errcode_ret)
+						</code></pre>
+						<b>clRetainSampler</b>
+						<pre><code data-trim>
+cl_int clRetainSampler (cl_sampler sampler)
+						</code></pre>
+						<b>clReleaseSampler</b>
+						<pre><code data-trim>
+cl_int clReleaseSampler (cl_sampler sampler)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Sampler Objects</h3>
+						<b>clGetSamplerInfo</b>
+						<p>获取 sampler 对象<code>sampler</code>信息</p>
+						<pre><code data-trim>
+cl_int clGetSamplerInfo (cl_sampler sampler,
+                         cl_sampler_info param_name,
+                         size_t param_value_size,
+                         void *param_value,
+                         size_t *param_value_size_ret)
+						</code></pre>
+					</section>
+					<section class="slide subsection">
+						<h3>Program</h3>
+					</section>
+					<section class="slide">
+						<h3>Program Objects</h3>
+						<b>clCreateProgramWithSource</b>
+						<p>通过文本源码<code>strings</code>创建 program 对象</p>
+						<pre><code data-trim>
+cl_program clCreateProgramWithSource (cl_context context,
+                                      cl_uint count,
+                                      const char **strings,
+                                      const size_t *lengths,
+                                      cl_int *errcode_ret)
+						</code></pre>
+						<b>clCreateProgramWithBinary</b>
+						<p>通过二进制内容<code>binaries</code>创建 program 对象</p>
+						<pre><code data-trim>
+cl_program clCreateProgramWithBinary (cl_context context,
+                                      cl_uint num_devices,
+                                      const cl_device_id *device_list,
+                                      const size_t *lengths,
+                                      const unsigned char **binaries,
+                                      cl_int *binary_status,
+                                      cl_int *errcode_ret)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Program Objects</h3>
+						<b>clCreateProgramWithBuiltInKernels</b>
+						<p>通过内建的 kernel <code>kernel_names</code>创建 program 对象</p>
+						<pre><code data-trim>
+cl_program clCreateProgramWithBuiltInKernels (cl_context context,
+                                              cl_uint num_devices,
+                                              const cl_device_id *device_list,
+                                              const char *kernel_names,
+                                              cl_int *errcode_ret)
+						</code></pre>
+						<b>clRetainProgram</b>
+						<pre><code data-trim>
+cl_int clRetainProgram (cl_program program)
+						</code></pre>
+						<b>clReleaseProgram</b>
+						<pre><code data-trim>
+cl_int clReleaseProgram (cl_program program)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Program Objects</h3>
+						<b>clBuildProgram</b>
+						<p>构建(build) program 对象，包含了编译(compile)和链接(link)两个步骤，一起完成</p>
+						<pre><code data-trim>
+cl_int clBuildProgram (cl_program program,
+                       cl_uint num_devices,
+                       const cl_device_id *device_list,
+                       const char *options,
+                       void (CL_CALLBACK *pfn_notify)(cl_program program,
+                                                      void *user_data),
+                       void *user_data)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Program Objects</h3>
+						<b>clCompileProgram</b>
+						<p>编译(compile) program 对象</p>
+						<pre><code data-trim>
+cl_int clCompileProgram (cl_program program,
+                         cl_uint num_devices,
+                         const cl_device_id *device_list,
+                         const char *options,
+                         cl_uint num_input_headers,
+                         const cl_program *input_headers,
+                         const char **header_include_names,
+                         void (CL_CALLBACK *pfn_notify)(cl_program program,
+                                                        void *user_data),
+                         void *user_data)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Program Objects</h3>
+						<b>clLinkProgram</b>
+						<p>链接(link) program 对象</p>
+						<pre><code data-trim>
+cl_program clLinkProgram (cl_context context,
+                          cl_uint num_devices,
+                          const cl_device_id *device_list,
+                          const char *options,
+                          cl_uint num_input_programs,
+                          const cl_program *input_programs,
+                          void (CL_CALLBACK *pfn_notify)(cl_program program,
+                                                         void *user_data),
+                          void *user_data,
+                          cl_int *errcode_ret)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Compiler Options</h3>
+						<dl>
+							<dt>预处理选项</dt>
+							<dd>-D name</dd>
+							<dd>-D name=definition</dd>
+							<dd>-I dir</dd>
+						</dl>
+						<dl>
+							<dt>数学内部函数选项</dt>
+							<dd>-cl-single-precision-constant</dd>
+							<dd>-cl-denorms-are-zero</dd>
+							<dd>-cl-fp32-correctly-rounded-divide-sqrt</dd>
+						</dl>
+						<dl>
+							<dt>优化选项</dt>
+							<dd>-cl-opt-disable</dd>
+							<dd>-cl-mad-enable</dd>
+							<dd>-cl-no-signed-zeros</dd>
+							<dd>-cl-unsafe-math-optimizations</dd>
+							<dd>-cl-finite-math-only</dd>
+							<dd>-cl-fast-relaxed-math</dd>
+						</dl>
+					</section>
+					<section class="slide">
+						<h3>Compiler Options</h3>
+						<dl>
+							<dt>请求或禁止显示警告</dt>
+							<dd>-w</dd>
+							<dd>-Werror</dd>
+						</dl>
+						<dl>
+							<dt>OpenCL C 版本</dt>
+							<dd>-cl-std=</dd>
+						</dl>
+						<dl>
+							<dt>Kernel 参数信息</dt>
+							<dd>-cl-kernel-arg-info</dd>
+						</dl>
+					</section>
+					<section class="slide">
+						<h3>Linker Options</h3>
+						<dl>
+							<dt>Library 链接选项</dt>
+							<dd>-create-library</dd>
+							<dd>-enable-link-options</dd>
+						</dl>
+						<dl>
+							<dt>Program 链接选项</dt>
+							<dd>-cl-denorms-are-zero</dd>
+							<dd>-cl-no-signed-zeroes</dd>
+							<dd>-cl-unsafe-math-optimizations</dd>
+							<dd>-cl-finite-math-only</dd>
+							<dd>-cl-fast-relaxed-math</dd>
+						</dl>
+					</section>
+					<section class="slide">
+						<h3>Program Objects</h3>
+						<b>clUnloadPlatformCompiler</b>
+						<p>释放编译(compile) program 对象时用到的资源</p>
+						<pre><code data-trim>
+cl_int clUnloadPlatformCompiler (cl_platform_id platform)
+						</code></pre>
+						<b>clGetProgramInfo</b>
+						<p>获取 program 对象的信息</p>
+						<pre><code data-trim>
+cl_int clGetProgramInfo (cl_program program,
+                         cl_program_info param_name,
+                         size_t param_value_size,
+                         void *param_value,
+                         size_t *param_value_size_ret)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Program Objects</h3>
+						<b>clGetProgramBuildInfo</b>
+						<p>获取 program 对象构建(build)的信息</p>
+						<pre><code data-trim>
+cl_int clGetProgramBuildInfo (cl_program program,
+                              cl_device_id device,
+                              cl_program_build_info param_name,
+                              size_t param_value_size,
+                              void *param_value,
+                              size_t *param_value_size_ret)
+						</code></pre>
+					</section>
+					<section class="slide subsection">
+						<h3>Kernel</h3>
+					</section>
+					<section class="slide">
+						<h3>Kernel Objects</h3>
+						<b>clCreateKernel</b>
+						<p>创建<b>一个</b> kernel 对象</p>
+						<pre><code data-trim>
+cl_kernel clCreateKernel (cl_program program,
+                          const char *kernel_name,
+                          cl_int *errcode_ret)
+						</code></pre>
+						<b>clCreateKernelsInProgram</b>
+						<p>创建 program 里面<b>所有</b>的 kernel 对象</p>
+						<pre><code data-trim>
+cl_int clCreateKernelsInProgram (cl_program program,
+                                 cl_uint num_kernels,
+                                 cl_kernel *kernels,
+                                 cl_uint *num_kernels_ret)
+						</code></pre>
+						<b>clRetainKernel</b>
+						<pre><code data-trim>
+cl_int clRetainKernel (cl_kernel kernel)
+						</code></pre>
+						<b>clReleaseKernel</b>
+						<pre><code data-trim>
+cl_int clReleaseKernel (cl_kernel kernel)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Kernel Objects</h3>
+						<b>clSetKernelArg</b>
+						<p>设置 kernel 参数</p>
+						<pre><code data-trim>
+cl_int clSetKernelArg (cl_kernel kernel,
+                       cl_uint arg_index,
+                       size_t arg_size,
+                       const void *arg_value)
+						</code></pre>
+						<b>clGetKernelArgInfo</b>
+						<p>获取 kernel 参数信息</p>
+						<pre><code data-trim>
+cl_int clGetKernelArgInfo (cl_kernel kernel,
+                           cl_uint arg_indx,
+                           cl_kernel_arg_info param_name,
+                           size_t param_value_size,
+                           void *param_value,
+                           size_t *param_value_size_ret)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Kernel Objects</h3>
+						<b>clGetKernelInfo</b>
+						<p>获取 kernel 对象的信息</p>
+						<pre><code data-trim>
+cl_int clGetKernelInfo (cl_kernel kernel,
+                        cl_kernel_info param_name,
+                        size_t param_value_size,
+                        void *param_value,
+                        size_t *param_value_size_ret)
+						</code></pre>
+						<b>clGetKernelWorkGroupInfo</b>
+						<p>获取 kernel 对象里面 work-group 的信息</p>
+						<pre><code data-trim>
+cl_int clGetKernelWorkGroupInfo (cl_kernel kernel,
+                                 cl_device_id device,
+                                 cl_kernel_work_group_info param_name,
+                                 size_t param_value_size,
+                                 void *param_value,
+                                 size_t *param_value_size_ret)
+						</code></pre>
+					</section>
+					<section class="slide subsection">
+						<h3>Executing</h3>
+					</section>
+					<section class="slide">
+						<h3>Executing Kernels</h3>
+						<b>clEnqueueNDRangeKernel</b>
+						<p>入队一个 command，在 kernel 里面执行，Data Parallel Programming Model</p>
+						<pre><code data-trim>
+cl_int clEnqueueNDRangeKernel (cl_command_queue command_queue,
+                               cl_kernel kernel,
+                               cl_uint work_dim,
+                               const size_t *global_work_offset,
+                               const size_t *global_work_size,
+                               const size_t *local_work_size,
+                               cl_uint num_events_in_wait_list,
+                               const cl_event *event_wait_list,
+                               cl_event *event)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Executing Kernels</h3>
+						<b>clEnqueueTask</b>
+						<p>入队一个 command，在 kernel 里面执行，Task Parallel Programming Model</p>
+						<pre><code data-trim>
+cl_int clEnqueueTask (cl_command_queue command_queue,
+                      cl_kernel kernel,
+                      cl_uint num_events_in_wait_list,
+                      const cl_event *event_wait_list,
+                      cl_event *event)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Executing Kernels</h3>
+						<b>clEnqueueNativeKernel</b>
+						<p>入队一个 command，执行 native kernel</p>
+						<pre><code data-trim>
+cl_int clEnqueueNativeKernel (cl_command_queue command_queue,
+                              void (CL_CALLBACK *user_func)(void *)
+                              void *args,
+                              size_t cb_args,
+                              cl_uint num_mem_objects,
+                              const cl_mem *mem_list,
+                              const void **args_mem_loc,
+                              cl_uint num_events_in_wait_list,
+                              const cl_event *event_wait_list,
+                              cl_event *event)
+						</code></pre>
+					</section>
+					<section class="slide subsection">
+						<h3>Event</h3>
+					</section>
+					<section class="slide">
+						<h3>Event Objects</h3>
+						<h4>kernel execution command</h4>
+						<div class="two-column">
+							<p>clEnqueueNDRangeKernel</p>
+							<p>clEnqueueTask</p>
+							<p>clEnqueueNativeKernel</p>
+						</div>
+					</section>
+					<section class="slide">
+						<h3>Event Objects</h3>
+						<h4>memory objects command</h4>
+						<div class="two-column">
+							<div>
+							<p>clEnqueueReadBuffer</p>
+							<p>clEnqueueWriteBuffer</p>
+							<p>clEnqueueMapBuffer</p>
+							<p>clEnqueueUnmapMemObject</p>
+							<p>clEnqueueReadBufferRect</p>
+							<p>clEnqueueWriteBufferRect</p>
+							<p>clEnqueueReadImage</p>
+							<p>clEnqueueWriteImage</p>
+							<p>clEnqueueMapImage</p>
+							<p>clEnqueueCopyBuffer</p>
+							<p>clEnqueueCopyImage</p>
+							<p>clEnqueueCopyBufferRect</p>
+							<p>clEnqueueCopyBufferToImage</p>
+							<p>clEnqueueCopyImageToBuffer</p>
+							<p>clEnqueueMarkerWithWaitList</p>
+							<p>clEnqueueBarrierWithWaitList</p>
+						</div>
+					</section>
+					<section class="slide">
+						<h3>Event Objects</h3>
+						<b>clCreateUserEvent</b>
+						<pre><code data-trim>
+cl_event clCreateUserEvent (cl_context context, cl_int *errcode_ret)
+						</code></pre>
+						<b>clSetUserEventStatus</b>
+						<pre><code data-trim>
+cl_int clSetUserEventStatus (cl_event event, cl_int execution_status)
+						</code></pre>
+						<b>clWaitForEvents</b>
+						<pre><code data-trim>
+cl_int clWaitForEvents (cl_uint num_events, const cl_event *event_list)
+						</code></pre>
+						<b>clGetEventInfo</b>
+						<pre><code data-trim>
+cl_int clGetEventInfo (cl_event event,
+                       cl_event_info param_name,
+                       size_t param_value_size,
+                       void *param_value,
+                       size_t *param_value_size_ret)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Event Objects</h3>
+						<b>clSetEventCallback</b>
+						<pre><code data-trim>
+cl_int clSetEventCallback (cl_event event,
+                           cl_int command_exec_callback_type,
+                           void (CL_CALLBACK *pfn_event_notify)(cl_event event,
+                                                                cl_int event_command_exec_status,
+                                                                void *user_data),
+                           void *user_data)
+						</code></pre>
+						<b>clRetainEvent</b>
+						<pre><code data-trim>
+cl_int clRetainEvent (cl_event event)
+						</code></pre>
+						<b>clReleaseEvent</b>
+						<pre><code data-trim>
+cl_int clReleaseEvent (cl_event event)
+						</code></pre>
+					</section>
+					<section class="slide subsection">
+						<h3>Markers, Barriers and Waiting for Events</h3>
+					</section>
+					<section class="slide">
+						<h3>Markers</h3>
+						<b>clEnqueueMarkerWithWaitList</b>
+						<pre><code data-trim>
+cl_int clEnqueueMarkerWithWaitList (cl_command_queue command_queue,
+                                    cl_uint num_events_in_wait_list,
+                                    const cl_event *event_wait_list,
+                                    cl_event *event)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Barriers</h3>
+						<b>clEnqueueBarrierWithWaitList</b>
+						<pre><code data-trim>
+cl_int clEnqueueBarrierWithWaitList (cl_command_queue command_queue,
+                                     cl_uint num_events_in_wait_list,
+                                     const cl_event *event_wait_list,
+                                     cl_event *event)
+						</code></pre>
+					</section>
+					<section class="slide subsection">
+						<h3>Out-of-order Execution of Kernels and Memory Object Commands</h3>
+					</section>
+					<section class="slide subsection">
+						<h3>Profiling Operations on Memory Objects and Kernels</h3>
+					</section>
+					<section class="slide">
+						<h3>Profiling</h3>
+						<b>clGetEventProfilingInfo</b>
+						<pre><code data-trim>
+cl_int clGetEventProfilingInfo (cl_event event,
+                                cl_profiling_info param_name,
+                                size_t param_value_size,
+                                void *param_value,
+                                size_t *param_value_size_ret)
+						</code></pre>
+					</section>
+					<section class="slide subsection">
+						<h3>Flush and Finish</h3>
+					</section>
+					<section class="slide">
+						<h3>Flush</h3>
+						<b>clFlush</b>
+						<pre><code data-trim>
+cl_int clFlush (cl_command_queue command_queue)
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h3>Finish</h3>
+						<b>clFinish</b>
+						<pre><code data-trim>
+cl_int clFinish (cl_command_queue command_queue)
+						</code></pre>
+					</section>
+				</section>
+					
+				<section>
+					<section class="slide">
+						<h2>OpenCL C</h2>
+					</section>
+					<section class="slide">
+						<h3>Querying Platform Info</h3>
+						<b>clGetPlatformIDs</b>
+						<pre><code data-trim>
+cl_int clGetPlatformIDs (cl_uint num_entries,
+                         cl_platform_id *platforms,
+                         cl_uint *num_platforms)
+						</code></pre>
+						<b>clGetPlatformInfo</b>
+						<pre><code data-trim>
+cl_int clGetPlatformInfo (cl_platform_id platform,
+                          cl_platform_info param_name,
+                          size_t param_value_size,
+                          void *param_value,
+                          size_t *param_value_size_ret)
+						</code></pre>
+					</section>
+				</section>
+				
+				<section class="slide end">
+					<h1>The End</h1>
+					<h3>Halo9Pan</h3>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="reveal.js/lib/js/head.min.js"></script>
+		<script src="reveal.js/js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				width: 1200,
+				height: 675,
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

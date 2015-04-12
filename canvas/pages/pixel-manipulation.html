@@ -1,0 +1,98 @@
+<!DOCTYPE html> 
+<html>
+    <head>
+    <title>Video Grayscale</title> 
+    <style>
+    body {
+        margin: 0px;
+        padding: 0px;
+        text-align: center;
+        overflow: hidden;
+        background-color: hsla(240, 50%, 90%, 0.2);
+    }
+    #canvas-element {
+        position: absolute;
+        top: 50%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+    }
+     
+    #video-element {
+        position: absolute;
+        top: 0%;
+        left: 0%;
+    }
+     
+    p {
+        position: relative;
+        z-index: 1;
+    }
+    </style>
+    <script> 
+      window.requestAnimFrame = (function(callback) {
+        return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame ||
+        function(callback) {
+          window.setTimeout(callback, 1000 / 60);
+        };
+      })();
+    document.addEventListener('DOMContentLoaded', function(){
+        var video = document.getElementById('video-element');
+        var canvas = document.getElementById('canvas-element');
+        var context = canvas.getContext('2d');
+        var backCanvas = document.createElement('canvas');
+        var backContext = backCanvas.getContext('2d');
+     
+        var cw = Math.floor(canvas.clientWidth / 4);
+        var ch = Math.floor(canvas.clientHeight / 4);
+        canvas.width = cw;
+        canvas.height = ch;
+     
+        video.addEventListener('play', function(){
+            requestAnimFrame(function() {
+                cw = video.clientWidth;
+                ch = video.clientHeight;
+                canvas.width = cw;
+                canvas.height = ch;
+                backCanvas.width = cw;
+                backCanvas.height = ch;
+                draw(video,context,backContext,cw,ch);
+                draw(video,context,cw,ch);
+            });
+        },false);
+     
+    },false);
+     
+    function draw(v,c,bc,w,h) {
+        if(v.paused || v.ended)	return false;
+        // First, draw it into the backing canvas
+        bc.drawImage(v,0,0,w,h);
+        // Grab the pixel data from the backing canvas
+        var idata = bc.getImageData(0,0,w,h);
+        var data = idata.data;
+        var iw = idata.width;
+        var limit = data.length
+        // Loop through the subpixels, convoluting each using an edge-detection matrix.
+        for(var i = 0; i < limit; i++) {
+            if( i%4 == 3 ) continue;
+            data[i] = 127 + 2*data[i] - data[i + 4] - data[i + iw*4];
+        }
+        // Draw the pixels onto the visible canvas
+        c.putImageData(idata,0,0);
+        // Start over!
+        requestAnimFrame(function() {
+            draw(v,c,bc,w,h);
+        });
+    }
+    </script> 
+    </head>
+    <body>
+    <canvas id="canvas-element" width="480" height="360"></canvas>
+    <video id="video-element" controls loop> 
+        <source src="assets/let_it_go.ogv" type="video/ogg" /> 
+        <source src="assets/let_it_go.mp4" type="video/mp4" /> 
+        <source src="assets/let_it_go.webm" type="video/webm" /> 
+    </video> 
+
+    </body>
+</html>

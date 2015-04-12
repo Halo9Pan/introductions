@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="zh">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Java 8 - Revolutionary</title>
+
+		<meta name="description" content="Introduce the new features of Java 8">
+		<meta name="author" content="Halo9Pan">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="reveal/css/reveal.min.css">
+		<link rel="stylesheet" href="reveal/css/theme/default.css" id="theme">
+		<link rel="stylesheet" href="styles/presentation.css">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="reveal/lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<section class="slide begin">
+						<h1>Java 8</h1>
+						<h3>革命即将来临</h3>
+						<p>
+							<small><a href="http://halo9pan.info">Halo9Pan</a> / <a href="http://github.com/Halo9Pan">@Halo9Pan</a></small>
+						</p>
+					</section>
+					<section id="transitions">
+						<h2>转场样式</h2>
+						<p>
+							<a href="?transition=cube#/transitions">Cube</a> -
+							<a href="?transition=page#/transitions">Page</a> -
+							<a href="?transition=concave#/transitions">Concave</a> -
+							<a href="?transition=zoom#/transitions">Zoom</a> -
+							<a href="?transition=linear#/transitions">Linear</a> -
+							<a href="?transition=fade#/transitions">Fade</a> -
+							<a href="?transition=none#/transitions">None</a> -
+							<a href="?#/transitions">Default</a>
+						</p>
+					</section>
+	
+					<section id="themes">
+						<h2>主题</h2>
+						<p>
+							<a href="?#/themes">Default</a> -
+							<a href="?theme=sky#/themes">Sky</a> -
+							<a href="?theme=beige#/themes">Beige</a> -
+							<a href="?theme=simple#/themes">Simple</a> -
+							<a href="?theme=serif#/themes">Serif</a> -
+							<a href="?theme=night#/themes">Night</a> <br>
+							<a href="?theme=moon#/themes">Moon</a> -
+							<a href="?theme=solarized#/themes">Solarized</a>
+						</p>
+					</section>
+				</section>
+				
+				<section class="slide">
+					<h2>Agenda</h2>
+					<ul>
+						<li class="fragment">Functional interfaces</li>
+						<li class="fragment">Lambda</li>
+						<li class="fragment">Interface method</li>
+						<li class="fragment">Stream API</li>
+						<li class="fragment">Nashorn JavaScript</li>
+						<li class="fragment">Time API</li>
+						<li class="fragment">Collections API</li>
+						<li class="fragment">Concurrency API</li>
+						<li class="fragment">IO/NIO API</li>
+					</ul>
+					<aside class="notes">
+						
+					</aside>
+				</section>
+
+				<section>
+					<section class="slide">
+						<h2>函数式接口</h2>
+						<p>核心概念</p>
+						<p>如果一个接口定义个唯一一个抽象方法，那么这个接口就成为函数式接口</p>
+						<p>java.lang.Runnable就是一个函数式接口，因为只有一个一个抽象方法</p>
+					</section>
+					<section class="slide">
+						<h2>@FunctionalInterface</h2>
+						<p>一个新的Annotation</p>
+						<p>把它放在一个接口前，表示这个接口是一个函数式接口</p>
+						<p>加上它的接口不会被编译，除非设法把它变成一个函数式接口</p>
+						<p>有点像@Override，都是声明了一种使用意图，避免把它用错</p>
+					</section>
+					<section class="slide">
+						<h2>函数式接口</h2>
+						<pre><code data-trim contenteditable>
+@FunctionalInterface
+public interface Action {
+	void run(String param);
+	default void stop(String param) {
+	}
+}
+						</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<section class="slide">
+						<h2>Lambda</h2>
+						<p>函数式编程的融合</p>
+					</section>
+					<section class="slide">
+						<h2>Hello lambda!</h2>
+						<pre><code data-trim contenteditable>
+Runnable r = () -> System.out.println("Hello lambda!");
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h2>新旧对比</h2>
+						<pre>
+	static Comparator<Integer> futureComparator() {
+		Comparator<Integer> cmp = (x, y) -> (x < y) ? -1 : ((x > y) ? 1 : 0);
+		return cmp;
+	}
+						</pre>
+						<pre>
+	static Comparator<Integer> classicComparator() {
+		Comparator<Integer> cmp = new Comparator<Integer>() {
+			@Override
+			public int compare(Integer x, Integer y) {
+				return (x < y) ? -1 : ((x > y) ? 1 : 0);
+			}
+		};
+		return cmp;
+	}
+						</pre>
+					</section>
+					<section class="slide">
+						<h2>更多的写法</h2>
+						<pre><code data-trim contenteditable>
+public class Executor {
+	@FunctionalInterface
+	static interface Action {
+		void run(String s);
+	}
+	void futureExecute(Action action) {
+		action.run("Hello, lambda!");
+	}
+	void classicExecute() {
+		(new Action() {
+			public void run(String param) {
+				System.out.println(param);
+			}
+		}).run("Goodbye, ugly old code style.");
+	}
+	public static void main(String[] args) {
+		Executor executor = new Executor();
+		executor.classicExecute();
+		executor.futureExecute((String param) -> System.out.println(param));
+		executor.futureExecute(param -> System.out.println(param));
+		executor.futureExecute(System.out::println);
+
+		executor.futureExecute(s -> System.out.println("*" + s + "*"));
+	}
+}
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h2>捕获和非捕获</h2>
+						<p>当Lambda表达式访问一个定义在Lambda表达式体外的非静态变量或者对象时，这个Lambda表达式称为“捕获的”</p>
+						<pre><code data-trim contenteditable>
+int x = 5; return y -> x + y;
+						</code></pre>
+						<p>为了保证这个lambda表达式声明是正确的，被它捕获的变量必须是“有效final”的</p>
+						<p>所以要么它们需要用final修饰符号标记，要么保证它们在赋值后不能被改变</p>
+						<p>非捕获的lambda只需要计算一次. 然后每次使用到它都会返回一个唯一的实例</p>
+						<p>捕获的lambda表达式每次使用时都需要重新计算一次，从目前实现来看，很像实例化一个匿名内部类的实例</p>
+					</section>
+				</section>
+
+				<section>
+					<section class="slide">
+						<h2>接口方法</h2>
+						<pre><code data-trim contenteditable>
+public interface IAction {
+	void run();
+	default void init(String param) {
+		System.out.println(param);
+	}
+}
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h2>实现</h2>
+						<pre><code data-trim contenteditable>
+public class ActionOne implements IAction {
+	public ActionOne() {
+	}
+	@Override
+	public void init(String param) {
+		System.out.println("implement one method");
+	}
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+	}
+}
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h2>Object?</h2>
+						<pre><code data-trim contenteditable>
+public interface IWrong {
+	void run();
+	default void init(String param) {
+		System.out.println(param);
+	}
+	default int hashCode() { // Error
+	}
+}
+						</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<section class="slide">
+						<h2>Stream API</h2>
+						<p>流能够是 串行的 或者 并行的</p>
+						<p>可以使用其中一种方式开始，然后切换到另外的一种方式</p>
+						<p>使用stream.sequential()或stream.parallel()来达到这种切换</p>
+						<p>串行流在一个线程上连续操作</p>
+						<p>并行流就可能一次出现在多个线程上</p>
+					</section>
+					<section class="slide">
+						<h2>Code</h2>
+						<pre><code data-trim contenteditable>
+		List&lt;Person&gt; list = persons.stream().collect(Collectors.toList());
+						</code></pre>
+						<pre><code data-trim contenteditable>
+		List&lt;Person&gt; filterList = persons.stream().filter(p -> p.name == "Halo").collect(Collectors.toList());
+						</code></pre>
+						<pre><code data-trim contenteditable>
+		List&lt;Person&gt; list = persons.stream().parallel().collect(Collectors.toList());
+						</code></pre>
+					</section>
+					<section class="slide">
+						<h2>中间的操作</h2>
+						<p><b>filter</b>&nbsp;排除所有与断言不匹配的元素</p>
+						<p><b>map</b>&nbsp;通过Function对元素执行一对一的转换</p>
+						<p><b>flatMap</b>&nbsp;通过FlatMapper将每个元素转变为无或更多的元素</p>
+						<p><b>peek</b>&nbsp;对每个遇到的元素执行一些操作，主要对调试很有用</p>
+						<p><b>distinct</b>&nbsp;根据.equals行为排除所有重复的元素，这是一个有状态的操作</p>
+						<p><b>sorted</b>&nbsp;确保流中的元素在后续的操作中，按照比较器（Comparator）决定的顺序访问，这是一个有状态的操作</p>
+						<p><b>limit</b>&nbsp;保证后续的操作所能看到的最大数量的元素，这是一个有状态的短路的操作</p>
+						<p><b>substream</b>&nbsp;确保后续的操作只能看到一个范围的（根据index）元素</p>
+					</section>
+					<section class="slide">
+						<h2>末端的操作</h2>
+						<p><b>forEach</b>&nbsp;对流中的每个元素执行一些操作</p>
+						<p><b>toArray</b>&nbsp;将流中的元素倾倒入一个数组</p>
+						<p><b>reduce</b>&nbsp;通过一个二进制操作将流中的元素合并到一起</p>
+						<p><b>collect</b>&nbsp;将流中的元素倾倒入某些容器，例如一个Collection或Map</p>
+						<p><b>min</b>&nbsp;根据一个比较器找到流中元素的最小值</p>
+						<p><b>max</b>&nbsp;根据一个比较器找到流中元素的最大值</p>
+						<p><b>count</b>&nbsp;计算流中元素的数量</p>
+					</section>
+					<section class="slide">
+						<h2>末端的操作</h2>
+						<p><b>anyMatch</b>&nbsp;判断流中是否至少有一个元素匹配断言。这是一个短路的操作</p>
+						<p><b>allMatch</b>&nbsp;判断流中是否每一个元素都匹配断言。这是一个短路的操作</p>
+						<p><b>noneMatch</b>&nbsp;判断流中是否没有一个元素匹配断言。这是一个短路的操作</p>
+						<p><b>findFirst</b>&nbsp;查找流中的第一个元素。这是一个短路的操作</p>
+						<p><b>findAny</b>&nbsp;查找流中的任意元素，可能对某些流要比findFirst代价低。这是一个短路的操作</p>
+					</section>
+				</section>
+
+				<section>
+					<section class="slide">
+						<h2>Nashorn JavaScript</h2>
+					</section>
+				</section>
+					
+				<section>
+					<section class="slide">
+						<h2>New Time API</h2>
+					</section>
+				</section>
+					
+				<section>
+					<section class="slide">
+						<h2>Collections API</h2>
+					</section>
+				</section>
+					
+				<section>
+					<section class="slide">
+						<h2>Concurrency API</h2>
+					</section>
+				</section>
+					
+				<section>
+					<section class="slide">
+						<h2>IO/NIO API</h2>
+					</section>
+				</section>
+					
+				<section class="slide end">
+					<h1>THE END</h1>
+					<h3>Halo9Pan</h3>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="reveal/lib/js/head.min.js"></script>
+		<script src="reveal/js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				width: 1000,
+				height: 750,
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'reveal/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'reveal/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'reveal/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

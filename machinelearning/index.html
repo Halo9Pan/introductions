@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="zh">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Machine Learning</title>
+
+		<link rel="shortcut icon" href="common/favicon.png" />
+
+		<meta name="description" content="Machine Learning for Beginner">
+		<meta name="author" content="Halo9Pan">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="reveal/css/reveal.min.css">
+		<link rel="stylesheet" href="reveal/css/theme/default.css" id="theme">
+		<link rel="stylesheet" href="common/styles/reveal.css">
+		<link rel="stylesheet" href="common/styles/main.css">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="reveal/lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<section class="slide begin">
+						<h1>机器学习</h1>
+						<h3>程序员眼中的数据世界</h3>
+						<h4>
+							<a href="http://halo9pan.info">Halo9Pan</a> / <a href="http://github.com/Halo9Pan">@Halo9Pan</a>
+						</h4>
+					</section>
+					<section id="transitions">
+						<h3>转场样式</h3>
+						<p>
+							<a href="?transition=cube#/transitions">Cube</a> -
+							<a href="?transition=page#/transitions">Page</a> -
+							<a href="?transition=concave#/transitions">Concave</a> -
+							<a href="?transition=zoom#/transitions">Zoom</a> -
+							<a href="?transition=linear#/transitions">Linear</a> -
+							<a href="?transition=fade#/transitions">Fade</a> -
+							<a href="?transition=none#/transitions">None</a> -
+							<a href="?#/transitions">Default</a>
+						</p>
+					</section>
+	
+					<section id="themes">
+						<h3>主题</h3>
+						<p>
+							<a href="?#/themes">Default</a> -
+							<a href="?theme=sky#/themes">Sky</a> -
+							<a href="?theme=beige#/themes">Beige</a> -
+							<a href="?theme=simple#/themes">Simple</a> -
+							<a href="?theme=serif#/themes">Serif</a> -
+							<a href="?theme=night#/themes">Night</a> <br>
+							<a href="?theme=moon#/themes">Moon</a> -
+							<a href="?theme=solarized#/themes">Solarized</a>
+						</p>
+					</section>
+				</section>
+				
+                <section>
+                    <section class="slide" id="definition">
+                        <h3>定义</h3>
+                        <ul>
+                            <li class="fragment">机器学习是一门人工智能的科学，该领域的主要研究对象是人工智能，特别是如何在经验学习中改善具体算法的性能</li>
+                            <li class="fragment">机器学习是对能通过经验自动改进的计算机算法的研究</li>
+                            <li class="fragment">机器学习是用数据或以往的经验，以此优化计算机程序的性能标准</li>
+                            <li class="fragment">A computer program is said to learn from experience E with respect to some class of tasks T and performance measure P, if its performance at tasks in T, as measured by P, improves with experience E.</li>
+                        </ul>
+                    </section>
+                    <section class="slide" id="domain">
+                        <h3>多领域交叉学科</h3>
+                        <ul>
+                            <li class="fragment">概率论</li>
+                            <li class="fragment">统计学</li>
+                            <li class="fragment">逼近论</li>
+                            <li class="fragment">凸分析</li>
+                            <li class="fragment">算法复杂度</li>
+                        </ul>
+                    </section>
+                    <section class="slide" id="application">
+                        <h3>广泛应用</h3>
+                        <ul>
+                            <li class="fragment">数据挖掘</li>
+                            <li class="fragment">计算机视觉</li>
+                            <li class="fragment">自然语言处理</li>
+                            <li class="fragment">生物特征识别</li>
+                            <li class="fragment">搜索引擎</li>
+                            <li class="fragment">医学诊断</li>
+                            <li class="fragment">检测信用卡欺诈</li>
+                            <li class="fragment">证券市场分析</li>
+                            <li class="fragment">DNA序列测序</li>
+                            <li class="fragment">语音和手写识别</li>
+                            <li class="fragment">战略游戏</li>
+                            <li class="fragment">机器人</li>
+                        </ul>
+                    </section>
+                    <section class="slide" id="classification">
+                        <h3>分类</h3>
+                        <ul>
+                            <li class="fragment">监督学习</li>
+                            <li class="fragment">无监督学习</li>
+                            <li class="fragment">半监督学习</li>
+                        </ul>
+                    </section>
+                    <section class="slide" id="method">
+                        <h3>方法</h3>
+                        <ul>
+                            <li class="fragment">分类</li>
+                            <li class="fragment">聚类</li>
+                            <li class="fragment">回归分析</li>
+                            <li class="fragment">关联规则</li>
+                            <li class="fragment">神经网络</li>
+                        </ul>
+                    </section>
+                    <section class="slide" id="element">
+                        <h3>要素</h3>
+                        <ul>
+                            <li class="fragment">数据</li>
+                            <li class="fragment">模型</li>
+                            <li class="fragment">算法</li>
+                        </ul>
+                    </section>
+                </section>
+
+                <section>
+                    <section class="slide" id="languages">
+                        <h3>语言/项目</h3>
+                    </section>
+                    <section class="slide" id="java">
+                        <h3>Java</h3>
+                        <ul>
+                            <li class="fragment"><a href="http://www.cs.waikato.ac.nz/ml/weka/" target="blank">Weka</a></li>
+                            <li class="fragment"><a href="http://mahout.apache.org/" target="blank">Mahout</a></li>
+                            <li class="fragment"><a href="https://github.com/h2oai/h2o" title="H2O makes Hadoop do math! H2O scales statistics, machine learning and math over BigData. H2O is extensible and users can build blocks using simple math legos in the core. H2O keeps familiar interfaces like R, Excel & JSON so that BigData enthusiasts & experts can explore, munge, model and score datasets using a range of simple to advanced algorithms. Data collection is easy. Decision making is hard. H2O makes it fast and easy to derive insights from your data through faster and better predictive modeling. H2O has a vision of online scoring and modeling in a single platform." target="blank">H2O</a></li>
+                            <li class="fragment"><a href="https://github.com/OryxProject/oryx" target="blank">Oryx</a></li>
+                        </ul>
+                    </section>
+                    <section class="slide" id="python">
+                        <h3>Python</h3>
+                        <ul>
+                            <li class="fragment"><a href="http://www.numpy.org/" target="blank">NumPy</a></li>
+                            <li class="fragment"><a href="http://www.scipy.org/" target="blank">SciPy</a></li>
+                            <li class="fragment"><a href="http://matplotlib.org/" target="blank">matplotlib</a></li>
+                            <li class="fragment"><a href="http://scikit-learn.org/stable/" target="blank">scikit-learn</a></li>
+                            <li class="fragment"><a href="http://deeplearning.net/software/theano/" target="blank">theano</a></li>
+                            <li class="fragment"><a href="http://orange.biolab.si/" target="blank">Orange</a></li>
+                            <li class="fragment"><a href="http://luispedro.org/software/milk" target="blank">Milk</a></li>
+                            <li class="fragment"><a href="http://numenta.org/" title="Numenta Platform for Intelligent Computing: a brain-inspired machine intelligence platform, and biologically accurate neural network based on cortical learning algorithms" target="blank">NuPIC</a></li>
+                        </ul>
+                    </section>
+                    <section class="slide" id="ccpp">
+                        <h3>C/C++</h3>
+                        <ul>
+                            <li class="fragment"><a href="http://caffe.berkeleyvision.org/" target="blank">Caffe</a></li>
+                            <li class="fragment"><a href="https://developer.nvidia.com/cuDNN" target="blank">cuDNN</a></li>
+                            <li class="fragment"><a href="http://waffles.sourceforge.net/" target="blank">Waffles</a></li>
+                        </ul>
+                    </section>
+                    <section class="slide" id="javascript">
+                        <h3>Javascript</h3>
+                        <ul>
+                            <li class="fragment"><a href="https://github.com/harthur/brain" title="Neural networks in JavaScript" target="blank">brain</a></li>
+                            <li class="fragment"><a href="https://github.com/karpathy/convnetjs" title="Deep Learning in Javascript. Train Convolutional Neural Networks (or ordinary ones) in your browser." target="blank">ConvNetJS</a></li>
+                        </ul>
+                    </section>
+                    <section class="slide" id="ruby">
+                        <h3>Ruby</h3>
+                        <ul>
+                            <li class="fragment"><a href="https://github.com/danielsdeleo/Decider" title="Flexible and Extensible Machine Learning in Ruby" target="blank">Decider</a></li>
+                            <li class="fragment"><a href="https://github.com/ryanb/ruby-warrior" title="This is a game designed to teach the Ruby language and artificial intelligence in a fun, interactive way." target="blank">Ruby Warrior</a></li>
+                        </ul>
+                    </section>
+                    <section class="slide" id="scala">
+                        <h3>Scala</h3>
+                        <ul>
+                            <li class="fragment"><a href="http://prediction.io/" title="PredictionIO, a machine learning server for software developers and data engineers." target="blank">PredictionIO</a></li>
+                        </ul>
+                    </section>
+                    <section class="slide" id="go">
+                        <h3>Go</h3>
+                        <ul>
+                            <li class="fragment"><a href="https://github.com/sjwhitworth/golearn" title="GoLearn is a 'batteries included' machine learning library for Go." target="blank">GoLearn</a></li>
+                        </ul>
+                    </section>
+                    <section class="slide" id="r">
+                        <h3>R</h3>
+                        <a href="http://www.r-project.org/" title="R is a free software environment for statistical computing and graphics." target="blank">R</a>
+                    </section>
+                </section>
+
+                
+				<section class="slide end" id="end">
+					<h1>The End</h1>
+					<h3>Halo9Pan</h3>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="reveal/lib/js/head.min.js"></script>
+		<script src="reveal/js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				width: '100%',
+				height: '100%',
+                minScale: 1,
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+                overview: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'reveal/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'reveal/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'reveal/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

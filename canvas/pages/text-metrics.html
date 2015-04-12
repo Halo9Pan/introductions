@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+        text-align: center;
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas-element" width="480" height="360"></canvas>
+    <script>
+      var canvas = document.getElementById('canvas-element');
+      var context = canvas.getContext('2d');
+      var x = canvas.width / 2;
+      var y = canvas.height / 2 - 10;
+      var text = 'HTML5 Canvas!';
+
+      context.font = '40pt Consolas';
+      context.textAlign = 'center';
+      context.fillStyle = 'hsla(240, 80%, 40%, 0.8)';
+      context.fillText(text, x, y);
+
+      // get text metrics
+      var metrics = context.measureText(text);
+      var width = metrics.width;
+      context.font = '20pt Verdana';
+      context.textAlign = 'center';
+      context.fillStyle = 'hsla(240, 80%, 40%, 0.4)';
+      context.fillText('(' + width + 'px wide)', x, y + 50);
+    </script>
+  </body>
+</html>
