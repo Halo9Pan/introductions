@@ -1,9 +1,9 @@
 [submodule "_reveal"]
 	path = _reveal
-	url = git://github.com/hakimel/reveal.js.git
+	url = https://github.com/hakimel/reveal.js.git
 [submodule "_codemirror"]
 	path = _codemirror
-	url = git://github.com/codemirror/CodeMirror.git
+	url = https://github.com/codemirror/CodeMirror.git
 [submodule "_impress"]
 	path = _impress
-	url = git://github.com/bartaz/impress.js.git
+	url = https://github.com/bartaz/impress.js.git
