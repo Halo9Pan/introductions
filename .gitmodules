@@ -1,0 +1,3 @@
+[submodule "akka/reveal"]
+	path = akka/reveal
+	url = https://github.com/hakimel/reveal.js.git
