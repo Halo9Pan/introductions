@@ -4,3 +4,6 @@
 [submodule "_codemirror"]
 	path = _codemirror
 	url = https://github.com/codemirror/CodeMirror.git
+[submodule "_impress"]
+	path = _impress
+	url = https://github.com/bartaz/impress.js.git
