@@ -1,9 +1,9 @@
-[submodule "_reveal"]
-	path = _reveal
+[submodule "0reveal"]
+	path = 0reveal
 	url = https://github.com/hakimel/reveal.js.git
-[submodule "_codemirror"]
-	path = _codemirror
+[submodule "0codemirror"]
+	path = 0codemirror
 	url = https://github.com/codemirror/CodeMirror.git
-[submodule "_impress"]
-	path = _impress
+[submodule "0impress"]
+	path = 0impress
 	url = https://github.com/bartaz/impress.js.git
