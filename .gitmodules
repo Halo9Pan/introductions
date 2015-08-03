@@ -1,9 +1,9 @@
 [submodule "0reveal"]
-	path = 0reveal
+	path = external/reveal
 	url = https://github.com/hakimel/reveal.js.git
 [submodule "0codemirror"]
-	path = 0codemirror
+	path = external/codemirror
 	url = https://github.com/codemirror/CodeMirror.git
 [submodule "0impress"]
-	path = 0impress
+	path = external/impress
 	url = https://github.com/bartaz/impress.js.git
