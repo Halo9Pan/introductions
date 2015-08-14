@@ -83,7 +83,7 @@ a:focus {
 
 @font-face {
 	font-family: 'HeaderWebFont';
-	src: url('../content/header-font.svg') format('svg');
+	src: url('header-font.svg') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -229,15 +229,14 @@ a:focus {
     margin-right: 40px;
     letter-spacing: 0;
     font-family: HeaderWebFont;
+    font-weight: bold;
 }
 
 .begin h3 {
-    color: hsl(240,60%,60%);
     text-align:right;
     margin-top: 40px;
     margin-right: 40px;
     font-size: 200%;
-    font-family: HeaderWebFont;
 }
 
 .end {
