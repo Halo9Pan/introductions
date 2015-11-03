@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="zh">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Heat</title>
+
+    <link rel="shortcut icon" href="../../common/favicon.png" />
+
+    <meta name="description" content="OpenStack Heat">
+    <meta name="author" content="Halo9Pan">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="../../external/reveal/css/reveal.min.css">
+    <link rel="stylesheet" href="../../external/reveal/css/theme/default.css" id="theme">
+    <link rel="stylesheet" href="../../common/styles/presentation.css">
+    <link rel="stylesheet" href="styles/main.css">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../../external/reveal/lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+      if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = '../../external/reveal/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+      }
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="../../external/reveal/lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <section class="slide begin">
+            <h1>Heat</h1>
+            <h3>OpenStack Orchestration component</h3>
+            <h4>
+              <a href="http://halo9pan.info">Halo9Pan</a> / <a href="http://github.com/Halo9Pan">@Halo9Pan</a>
+            </h4>
+          </section>
+          <section id="transitions">
+            <h3>转场样式</h3>
+            <p>
+              <a href="?transition=cube#/transitions">Cube</a> -
+              <a href="?transition=page#/transitions">Page</a> -
+              <a href="?transition=concave#/transitions">Concave</a> -
+              <a href="?transition=zoom#/transitions">Zoom</a> -
+              <a href="?transition=linear#/transitions">Linear</a> -
+              <a href="?transition=fade#/transitions">Fade</a> -
+              <a href="?transition=none#/transitions">None</a> -
+              <a href="?#/transitions">Default</a>
+            </p>
+          </section>
+
+          <section id="themes">
+            <h3>主题</h3>
+            <p>
+              <a href="?#/themes">Default</a> -
+              <a href="?theme=sky#/themes">Sky</a> -
+              <a href="?theme=beige#/themes">Beige</a> -
+              <a href="?theme=simple#/themes">Simple</a> -
+              <a href="?theme=serif#/themes">Serif</a> -
+              <a href="?theme=night#/themes">Night</a> <br>
+              <a href="?theme=moon#/themes">Moon</a> -
+              <a href="?theme=solarized#/themes">Solarized</a>
+            </p>
+          </section>
+        </section>
+        <section>
+            <section class="slide" id="ceilometer">
+                <h2>概述</h2>
+            </section>
+            <section class="slide" id="objectives">
+                <h3>目标？</h3>
+            </section>
+            <section class="slide" id="metering">
+                <h3>模板？</h3>
+            </section>
+        </section>
+        
+        <section>
+            <section class="slide" id="system-architecture">
+                <h2>系统架构</h2>
+                <ul>
+                    <li class="fragment">功能模块</li>
+                </ul>
+            </section>
+            <section class="slide" id="components">
+                <h3>功能模块</h3>
+            </section>
+        </section>
+
+        <section>
+            <section class="slide" id="measurements">
+                <h2>模板语法</h2>
+                <ul>
+                    <li class="fragment">模板结构</li>
+                    <li class="fragment">模板版本</li>
+                    <li class="fragment">参数定义</li>
+                    <li class="fragment">资源定义</li>
+                    <li class="fragment">输出配置</li>
+                    <li class="fragment">内置函数</li>
+                </ul>
+            </section>
+            <section class="slide" id="template-structure">
+                <h3>模板结构</h3>
+            </section>
+            <section class="slide" id="template-version">
+                <h3>模板版本</h3>
+            </section>
+            <section class="slide" id="template-parameter">
+                <h3>参数定义</h3>
+            </section>
+            <section class="slide" id="template-resources">
+                <h3>资源定义</h3>
+            </section>
+            <section class="slide" id="template-output">
+                <h3>输出配置</h3>
+            </section>
+            <section class="slide" id="template-functions">
+                <h3>内置函数</h3>
+            </section>
+        </section>
+
+        <section>
+            <section class="slide" id="installing-configuration">
+                <h2>安装配置</h2>
+                <ul>
+                    <li class="fragment">安装步骤</li>
+                    <li class="fragment">模板文件</li>
+                </ul>
+            </section>
+            <section class="slide" id="installing-manually">
+                <h3>安装步骤</h3>
+            </section>
+            <section class="slide" id="template-file">
+                <h3>模板文件</h3>
+            </section>
+        </section>
+
+        <section class="slide end" id="end">
+          <h1>The End</h1>
+          <h3>Halo9Pan</h3>
+        </section>
+
+      </div>
+
+    </div>
+
+    <script src="../../external/reveal/lib/js/head.min.js"></script>
+    <script src="../../external/reveal/js/reveal.min.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        width: 1200,
+        height: 675,
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        overview: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Parallax scrolling
+        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        // parallaxBackgroundSize: '2100px 900px',
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: '../../external/reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: '../../external/reveal/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../../external/reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../../external/reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: '../../external/reveal/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: '../../external/reveal/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
+
+    </script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-43856748-9', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </body>
+</html>
