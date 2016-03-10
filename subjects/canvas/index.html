@@ -1,983 +1,979 @@
 <!doctype html>
 <html lang="zh">
 
-	<head>
-		<meta charset="utf-8">
+  <head>
+    <meta charset="utf-8">
 
-		<title>HTML5 Canvas</title>
+    <title>HTML5 Canvas</title>
 
-		<link rel="shortcut icon" href="../../common/favicon.png" />
+    <link rel="shortcut icon" href="../../common/favicon.png" />
 
-		<meta name="description" content="Introduce HTML5 Canvas Element">
-		<meta name="author" content="Halo9Pan">
+    <meta name="description" content="Introduce HTML5 Canvas Element">
+    <meta name="author" content="Halo9Pan">
 
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<link rel="stylesheet" href="../../external/reveal/css/reveal.min.css">
-		<link rel="stylesheet" href="../../external/reveal/css/theme/default.css" id="theme">
-        <link rel="stylesheet" href="../../external/codemirror/lib/codemirror.css">
-		<link rel="stylesheet" href="../../common/styles/presentation.css">
-		<link rel="stylesheet" href="../../common/styles/main.css">
+    <link rel="stylesheet" href="../../external/reveal/css/reveal.min.css">
+    <link rel="stylesheet" href="../../external/reveal/css/theme/default.css" id="theme">
+    <link rel="stylesheet" href="../../external/codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="../../common/styles/presentation.css">
+    <link rel="stylesheet" href="../../common/styles/main.css">
 
-		<!-- For syntax highlighting -->
-		<link rel="stylesheet" href="../../external/reveal/lib/css/zenburn.css">
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="../../external/reveal/lib/css/zenburn.css">
 
-		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
-		<script>
-			if( window.location.search.match( /print-pdf/gi ) ) {
-				var link = document.createElement( 'link' );
-				link.rel = 'stylesheet';
-				link.type = 'text/css';
-				link.href = 'css/print/pdf.css';
-				document.getElementsByTagName( 'head' )[0].appendChild( link );
-			}
-		</script>
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+      if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+      }
+    </script>
 
-		<!--[if lt IE 9]>
-		<script src="../../external/reveal/lib/js/html5shiv.js"></script>
-		<![endif]-->
-	</head>
+    <!--[if lt IE 9]>
+    <script src="../../external/reveal/lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
 
-	<body>
+  <body>
+    <div class="reveal">
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+        <section>
+          <section class="slide begin">
+            <h1>HTML5 Canvas</h1>
+            <h3>走进艺术殿堂</h3>
+            <h4>
+              <a href="http://halo9pan.info">Halo9Pan</a> / <a href="http://github.com/Halo9Pan">@Halo9Pan</a>
+            </h4>
+          </section>
+          <section id="transitions">
+            <h3>转场样式</h3>
+            <p>
+              <a href="?transition=cube#/transitions">Cube</a> -
+              <a href="?transition=page#/transitions">Page</a> -
+              <a href="?transition=concave#/transitions">Concave</a> -
+              <a href="?transition=zoom#/transitions">Zoom</a> -
+              <a href="?transition=linear#/transitions">Linear</a> -
+              <a href="?transition=fade#/transitions">Fade</a> -
+              <a href="?transition=none#/transitions">None</a> -
+              <a href="?#/transitions">Default</a>
+            </p>
+          </section>
+  
+          <section id="themes">
+            <h3>主题</h3>
+            <p>
+              <a href="?#/themes">Default</a> -
+              <a href="?theme=sky#/themes">Sky</a> -
+              <a href="?theme=beige#/themes">Beige</a> -
+              <a href="?theme=simple#/themes">Simple</a> -
+              <a href="?theme=serif#/themes">Serif</a> -
+              <a href="?theme=night#/themes">Night</a> <br>
+              <a href="?theme=moon#/themes">Moon</a> -
+              <a href="?theme=solarized#/themes">Solarized</a>
+            </p>
+          </section>
+        </section>
+        
+        <section class="slide">
+          <h3>Agenda</h3>
+          <ul>
+            <li class="fragment">Canvas Element</li>
+            <li class="fragment">直线、曲线、路径</li>
+            <li class="fragment">形状、填充</li>
+            <li class="fragment">图像、文本</li>
+            <li class="fragment">转换、合成</li>
+            <li class="fragment">动画</li>
+            <li class="fragment">动态图像</li>
+            <li class="fragment">视频</li>
+          </ul>
+          <aside class="notes">
+            
+          </aside>
+        </section>
+          <section class="slide" id="canvas-hello">
+            <h3>Canvas Element</h3>
+            <div class="root" id="canvas-element">
+                <div class="code container">
+                <textarea></textarea>
+              </div>
+                <div class="demo container">
+                <iframe scrolling="no" height="100%" width="100%"></iframe>
+              </div>
+            </div>
+          </section>
 
-		<div class="reveal">
+        <section>
+          <section class="slide" id="lines">
+            <h3>直线</h3>
+            <ul>
+              <li>Line</li>
+              <li>Line Width</li>
+              <li>Line Color</li>
+              <li>Line Cap</li>
+            </ul>
+          </section>
+          <section class="slide" id="lines-line">
+            <h3>Line</h3>
+            <div class="root" id="line">
+                <div class="code container">
+                <textarea></textarea>
+              </div>
+                <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="lines-line-width">
+            <h3>Line Width</h3>
+            <div class="root" id="line-width">
+                <div class="code container">
+                <textarea></textarea>
+              </div>
+                <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="lines-line-color">
+            <h3>Line Color</h3>
+            <div class="root" id="line-color">
+                <div class="code container">
+                <textarea></textarea>
+              </div>
+                <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="lines-line-cap">
+            <h3>Line Cap</h3>
+            <div class="root" id="line-cap">
+                <div class="code container">
+                <textarea></textarea>
+              </div>
+                <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+        </section>
+        
+        <section>
+          <section class="slide" id="curves">
+            <h3>曲线</h3>
+            <ul>
+              <li>Arc</li>
+              <li>Quadratic Curve</li>
+              <li>Bezier Curve</li>
+            </ul>
+          </section>
+          <section class="slide" id="curves-arc">
+            <h3>Arc</h3>
+            <div class="root" id="arc">
+                <div class="code container">
+              <textarea></textarea>
+              </div>
+                <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="curves-quadratic">
+            <h3>Quadratic Curve</h3>
+            <div class="root" id="quadratic">
+                <div class="code container">
+                <textarea></textarea>
+              </div>
+                <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="curves-bezier">
+            <h3>Bezier Curve</h3>
+            <div class="root" id="bezier">
+                <div class="code container">
+                <textarea></textarea>
+              </div>
+                <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+        </section>
 
-			<!-- Any section element inside of this container is displayed as a slide -->
-			<div class="slides">
-				<section>
-					<section class="slide begin">
-						<h1>HTML5 Canvas</h1>
-						<h3>走进艺术殿堂</h3>
-						<h4>
-							<a href="http://halo9pan.info">Halo9Pan</a> / <a href="http://github.com/Halo9Pan">@Halo9Pan</a>
-						</h4>
-					</section>
-					<section id="transitions">
-						<h3>转场样式</h3>
-						<p>
-							<a href="?transition=cube#/transitions">Cube</a> -
-							<a href="?transition=page#/transitions">Page</a> -
-							<a href="?transition=concave#/transitions">Concave</a> -
-							<a href="?transition=zoom#/transitions">Zoom</a> -
-							<a href="?transition=linear#/transitions">Linear</a> -
-							<a href="?transition=fade#/transitions">Fade</a> -
-							<a href="?transition=none#/transitions">None</a> -
-							<a href="?#/transitions">Default</a>
-						</p>
-					</section>
-	
-					<section id="themes">
-						<h3>主题</h3>
-						<p>
-							<a href="?#/themes">Default</a> -
-							<a href="?theme=sky#/themes">Sky</a> -
-							<a href="?theme=beige#/themes">Beige</a> -
-							<a href="?theme=simple#/themes">Simple</a> -
-							<a href="?theme=serif#/themes">Serif</a> -
-							<a href="?theme=night#/themes">Night</a> <br>
-							<a href="?theme=moon#/themes">Moon</a> -
-							<a href="?theme=solarized#/themes">Solarized</a>
-						</p>
-					</section>
-				</section>
-				
-				<section class="slide">
-					<h3>Agenda</h3>
-					<ul>
-						<li class="fragment">Canvas Element</li>
-						<li class="fragment">直线、曲线、路径</li>
-						<li class="fragment">形状、填充</li>
-						<li class="fragment">图像、文本</li>
-						<li class="fragment">转换、合成</li>
-						<li class="fragment">动画</li>
-						<li class="fragment">动态图像</li>
-						<li class="fragment">视频</li>
-					</ul>
-					<aside class="notes">
-						
-					</aside>
-				</section>
+        <section>
+          <section class="slide" id="paths">
+            <h3>路径</h3>
+              <ul>
+                <li>Path</li>
+                <li>Line Join</li>
+                <li>Rounded Corners</li>
+              </ul>
+          </section>
+          <section class="slide" id="paths-path">
+            <h3>Path</h3>
+            <div class="root" id="path">
+                <div class="code container">
+                <textarea></textarea>
+              </div>
+                <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="paths-line-join">
+            <h3>Line Join</h3>
+            <div class="root" id="line-join">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="paths-rounded-corners">
+            <h3>Rounded Corners</h3>
+            <div class="root" id="rounded-corners">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+              </div>
+          </section>
+        </section>
 
-                <section class="slide" id="canvas-hello">
-                    <h3>Canvas Element</h3>
-                    <div class="root" id="canvas-element">
-                    <div class="code container">
-                        <textarea></textarea>
-                    </div>
-                    <div class="demo container">
-                        <iframe scrolling="no" height="100%" width="100%"></iframe>
-                    </div>
-                    </div>
-                </section>
+        <section>
+          <section class="slide" id="shapes">
+            <h3>形状</h3>
+            <ul>
+              <li>Custom Shape</li>
+              <li>Rectangle</li>
+              <li>Circle</li>
+              <li>Rounded Corners</li>
+            </ul>
+          </section>
+          <section class="slide" id="shapes-custom-shape">
+            <h3>Custom Shape</h3>
+            <div class="root" id="custom-shape">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="shapes-rectangle">
+            <h3>Rectangle</h3>
+            <div class="root" id="rectangle">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="shapes-circle">
+            <h3>Circle</h3>
+            <div class="root" id="circle">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="shapes-semicircle">
+            <h3>Semicircle</h3>
+            <div class="root" id="semicircle">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+        </section>
 
-				<section>
-					<section class="slide" id="lines">
-						<h3>直线</h3>
-                        <ul>
-                            <li>Line</li>
-                            <li>Line Width</li>
-                            <li>Line Color</li>
-                            <li>Line Cap</li>
-                        </ul>
-					</section>
-					<section class="slide" id="lines-line">
-						<h3>Line</h3>
-                        <div class="root" id="line">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="lines-line-width">
-						<h3>Line Width</h3>
-                        <div class="root" id="line-width">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="lines-line-color">
-						<h3>Line Color</h3>
-                        <div class="root" id="line-color">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="lines-line-cap">
-						<h3>Line Cap</h3>
-                        <div class="root" id="line-cap">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-				</section>
-				
-				<section>
-					<section class="slide" id="curves">
-						<h3>曲线</h3>
-                        <ul>
-                            <li>Arc</li>
-                            <li>Quadratic Curve</li>
-                            <li>Bezier Curve</li>
-                        </ul>
-					</section>
-					<section class="slide" id="curves-arc">
-						<h3>Arc</h3>
-                        <div class="root" id="arc">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="curves-quadratic">
-						<h3>Quadratic Curve</h3>
-                        <div class="root" id="quadratic">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="curves-bezier">
-						<h3>Bezier Curve</h3>
-                        <div class="root" id="bezier">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-				</section>
+        <section>
+          <section class="slide" id="fill">
+            <h3>填充</h3>
+            <ul>
+              <li>Color Fill</li>
+              <li>Linear Gradient</li>
+              <li>Radial Gradient</li>
+              <li>Pattern</li>
+            </ul>
+          </section>
+          <section class="slide" id="fill-style-color">
+            <h3>Color Fill</h3>
+            <div class="root" id="style-color">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="fill-linear-gradient">
+            <h3>Linear Gradient</h3>
+            <div class="root" id="linear-gradient">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="fill-radial-gradient">
+            <h3>Radial Gradient</h3>
+            <div class="root" id="radial-gradient">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="fill-pattern">
+            <h3>Pattern</h3>
+            <div class="root" id="pattern">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+        </section>
 
-				<section>
-					<section class="slide" id="paths">
-						<h3>路径</h3>
-                        <ul>
-                            <li>Path</li>
-                            <li>Line Join</li>
-                            <li>Rounded Corners</li>
-                        </ul>
-					</section>
-					<section class="slide" id="paths-path">
-						<h3>Path</h3>
-                        <div class="root" id="path">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="paths-line-join">
-						<h3>Line Join</h3>
-                        <div class="root" id="line-join">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="paths-rounded-corners">
-						<h3>Rounded Corners</h3>
-                        <div class="root" id="rounded-corners">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-				</section>
+        <section>
+          <section class="slide" id="images">
+            <h3>图像</h3>
+            <ul>
+              <li>Draw Image</li>
+              <li>Image Size</li>
+              <li>Image Crop</li>
+              <li>Pattern</li>
+            </ul>
+          </section>
+          <section class="slide" id="images-draw-image">
+            <h3>Draw Image</h3>
+            <div class="root" id="draw-image">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="images-image-size">
+            <h3>Image Size</h3>
+            <div class="root" id="image-size">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="images-image-crop">
+            <h3>Image Crop</h3>
+            <div class="root" id="image-crop">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="images-image-loader">
+            <h3>Image Loader</h3>
+            <div class="root" id="image-loader">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+        </section>
 
-				<section>
-					<section class="slide" id="shapes">
-						<h3>形状</h3>
-                        <ul>
-                            <li>Custom Shape</li>
-                            <li>Rectangle</li>
-                            <li>Circle</li>
-                            <li>Rounded Corners</li>
-                        </ul>
-					</section>
-					<section class="slide" id="shapes-custom-shape">
-						<h3>Custom Shape</h3>
-                        <div class="root" id="custom-shape">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="shapes-rectangle">
-						<h3>Rectangle</h3>
-                        <div class="root" id="rectangle">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="shapes-circle">
-						<h3>Circle</h3>
-                        <div class="root" id="circle">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="shapes-semicircle">
-						<h3>Semicircle</h3>
-                        <div class="root" id="semicircle">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-				</section>
+        <section>
+          <section class="slide" id="text">
+            <h3>文本</h3>
+            <ul>
+              <li>Font, Size &amp; Style</li>
+              <li>Text Color</li>
+              <li>Image Crop</li>
+              <li>Pattern</li>
+              <li>Image Size</li>
+              <li>Image Crop</li>
+              <li>Pattern</li>
+            </ul>
+          </section>
+          <section class="slide" id="text-font-size-style">
+            <h3>Font, Size &amp; Style</h3>
+            <div class="root" id="font-size-style">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="text-text-color">
+            <h3>Text Color</h3>
+            <div class="root" id="text-color">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="text-text-stroke">
+            <h3>Text Stroke</h3>
+            <div class="root" id="text-stroke">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="text-text-align">
+            <h3>Text Align</h3>
+            <div class="root" id="text-align">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="text-text-baseline">
+            <h3>Text Baseline</h3>
+            <div class="root" id="text-baseline">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="text-text-metrics">
+            <h3>Text Metrics</h3>
+            <div class="root" id="text-metrics">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="text-text-wrap">
+            <h3>Text Wrap</h3>
+            <div class="root" id="text-wrap">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+        </section>
 
-				<section>
-					<section class="slide" id="fill">
-						<h3>填充</h3>
-                        <ul>
-                            <li>Color Fill</li>
-                            <li>Linear Gradient</li>
-                            <li>Radial Gradient</li>
-                            <li>Pattern</li>
-                        </ul>
-					</section>
-					<section class="slide" id="fill-style-color">
-						<h3>Color Fill</h3>
-                        <div class="root" id="style-color">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="fill-linear-gradient">
-						<h3>Linear Gradient</h3>
-                        <div class="root" id="linear-gradient">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="fill-radial-gradient">
-						<h3>Radial Gradient</h3>
-                        <div class="root" id="radial-gradient">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="fill-pattern">
-						<h3>Pattern</h3>
-                        <div class="root" id="pattern">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-				</section>
+        <section>
+          <section class="slide" id="transformations">
+            <h3>转换</h3>
+            <ul>
+              <li>Translate</li>
+              <li>Scale</li>
+              <li>Rotate</li>
+              <li>Custom Transform</li>
+              <li>Shear</li>
+              <li>Mirror</li>
+              <li>Reset Transform</li>
+              <li>State Stack</li>
+              <li>Oval</li>
+            </ul>
+          </section>
+          <section class="slide" id="transformations-translate">
+            <h3>Translate</h3>
+            <div class="root" id="translate">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="transformations-scale">
+            <h3>Scale</h3>
+            <div class="root" id="scale">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="transformations-rotate">
+            <h3>Rotate</h3>
+            <div class="root" id="rotate">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="transformations-custom-transform">
+            <h3>Custom Transform</h3>
+            <div class="root" id="custom-transform">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="transformations-shear">
+            <h3>Shear</h3>
+            <div class="root" id="shear">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="transformations-mirror">
+            <h3>Mirror</h3>
+            <div class="root" id="mirror">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="transformations-reset-transform">
+            <h3>Reset Transform</h3>
+            <div class="root" id="reset-transform">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="transformations-state-stack">
+            <h3>State Stack</h3>
+            <div class="root" id="state-stack">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="transformations-oval">
+            <h3>Oval</h3>
+            <div class="root" id="oval">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+        </section>
 
-				<section>
-					<section class="slide" id="images">
-						<h3>图像</h3>
-                        <ul>
-                            <li>Draw Image</li>
-                            <li>Image Size</li>
-                            <li>Image Crop</li>
-                            <li>Pattern</li>
-                        </ul>
-					</section>
-					<section class="slide" id="images-draw-image">
-						<h3>Draw Image</h3>
-                        <div class="root" id="draw-image">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="images-image-size">
-						<h3>Image Size</h3>
-                        <div class="root" id="image-size">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="images-image-crop">
-						<h3>Image Crop</h3>
-                        <div class="root" id="image-crop">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="images-image-loader">
-						<h3>Image Loader</h3>
-                        <div class="root" id="image-loader">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-				</section>
+        <section>
+          <section class="slide" id="composites">
+            <h3>合成</h3>
+            <ul>
+              <li>Shadows</li>
+              <li>Global Alpha</li>
+              <li>Clipping Region</li>
+              <li>Operations</li>
+            </ul>
+          </section>
+          <section class="slide" id="composites-shadows">
+            <h3>Shadows</h3>
+            <div class="root" id="shadows">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="composites-global-alpha">
+            <h3>Global Alpha</h3>
+            <div class="root" id="global-alpha">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="composites-clipping-region">
+            <h3>Clipping Region</h3>
+            <div class="root" id="clipping-region">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="composites-operations">
+            <h3>Operations</h3>
+            <div class="root" id="operations">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+        </section>
 
-				<section>
-					<section class="slide" id="text">
-						<h3>文本</h3>
-                        <ul>
-                            <li>Font, Size &amp; Style</li>
-                            <li>Text Color</li>
-                            <li>Image Crop</li>
-                            <li>Pattern</li>
-                            <li>Image Size</li>
-                            <li>Image Crop</li>
-                            <li>Pattern</li>
-                        </ul>
-					</section>
-					<section class="slide" id="text-font-size-style">
-						<h3>Font, Size &amp; Style</h3>
-                        <div class="root" id="font-size-style">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="text-text-color">
-						<h3>Text Color</h3>
-                        <div class="root" id="text-color">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="text-text-stroke">
-						<h3>Text Stroke</h3>
-                        <div class="root" id="text-stroke">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="text-text-align">
-						<h3>Text Align</h3>
-                        <div class="root" id="text-align">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="text-text-baseline">
-						<h3>Text Baseline</h3>
-                        <div class="root" id="text-baseline">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="text-text-metrics">
-						<h3>Text Metrics</h3>
-                        <div class="root" id="text-metrics">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="text-text-wrap">
-						<h3>Text Wrap</h3>
-                        <div class="root" id="text-wrap">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-				</section>
+        <section>
+          <section class="slide" id="animation">
+            <h3>动画</h3>
+            <ul>
+              <li>Clear Canvas</li>
+              <li>Animation Frames</li>
+              <li>Linear Motion</li>
+              <li>Acceleration</li>
+              <li>Oscillation</li>
+              <li>Start and Stop</li>
+              <li>Sprite Animation</li>
+            </ul>
+          </section>
+          <section class="slide" id="animation-clear-canvas">
+            <h3>Clear Canvas</h3>
+            <div class="root" id="clear-canvas">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="animation-animation-frames">
+            <h3>Animation Frames</h3>
+            <div class="root" id="animation-frames">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="animation-linear-motion">
+            <h3>Linear Motion</h3>
+            <div class="root" id="linear-motion">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="animation-acceleration">
+            <h3>Acceleration</h3>
+            <div class="root" id="acceleration">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="animation-oscillation">
+            <h3>Oscillation</h3>
+            <div class="root" id="oscillation">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="animation-start-stop">
+            <h3>Start and Stop</h3>
+            <div class="root" id="start-stop">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="animation-sprite-animation">
+            <h3>Sprite Animation</h3>
+            <div class="root" id="sprite-animation">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+        </section>
 
-				<section>
-					<section class="slide" id="transformations">
-						<h3>转换</h3>
-                        <ul>
-                            <li>Translate</li>
-                            <li>Scale</li>
-                            <li>Rotate</li>
-                            <li>Custom Transform</li>
-                            <li>Shear</li>
-                            <li>Mirror</li>
-                            <li>Reset Transform</li>
-                            <li>State Stack</li>
-                            <li>Oval</li>
-                        </ul>
-					</section>
-					<section class="slide" id="transformations-translate">
-						<h3>Translate</h3>
-                        <div class="root" id="translate">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="transformations-scale">
-						<h3>Scale</h3>
-                        <div class="root" id="scale">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="transformations-rotate">
-						<h3>Rotate</h3>
-                        <div class="root" id="rotate">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="transformations-custom-transform">
-						<h3>Custom Transform</h3>
-                        <div class="root" id="custom-transform">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="transformations-shear">
-						<h3>Shear</h3>
-                        <div class="root" id="shear">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="transformations-mirror">
-						<h3>Mirror</h3>
-                        <div class="root" id="mirror">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="transformations-reset-transform">
-						<h3>Reset Transform</h3>
-                        <div class="root" id="reset-transform">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="transformations-state-stack">
-						<h3>State Stack</h3>
-                        <div class="root" id="state-stack">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="transformations-oval">
-						<h3>Oval</h3>
-                        <div class="root" id="oval">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-				</section>
+        <section>
+          <section class="slide" id="image-data">
+            <h3>动态图像</h3>
+            <ul>
+              <li>Image Data</li>
+              <li>Invert Colors</li>
+              <li>Grayscale</li>
+              <li>Get Data URL</li>
+              <li>Load Data URL</li>
+              <li>Save Drawing</li>
+            </ul>
+          </section>
+          <section class="slide" id="image-data-image-data">
+            <h3>Image Data</h3>
+            <div class="root" id="image-data">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="image-data-invert-colors">
+            <h3>Invert Colors</h3>
+            <div class="root" id="invert-colors">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="image-data-grayscale">
+            <h3>Grayscale</h3>
+            <div class="root" id="grayscale">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="image-data-get-data-url">
+            <h3>Get Data URL</h3>
+            <div class="root" id="get-data-url">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="image-data-load-data-url">
+            <h3>Load Data URL</h3>
+            <div class="root" id="load-data-url">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="image-data-save-drawing">
+            <h3>Save Drawing</h3>
+            <div class="root" id="save-drawing">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+        </section>
 
-				<section>
-					<section class="slide" id="composites">
-						<h3>合成</h3>
-                        <ul>
-                            <li>Shadows</li>
-                            <li>Global Alpha</li>
-                            <li>Clipping Region</li>
-                            <li>Operations</li>
-                        </ul>
-					</section>
-					<section class="slide" id="composites-shadows">
-						<h3>Shadows</h3>
-                        <div class="root" id="shadows">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="composites-global-alpha">
-						<h3>Global Alpha</h3>
-                        <div class="root" id="global-alpha">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="composites-clipping-region">
-						<h3>Clipping Region</h3>
-                        <div class="root" id="clipping-region">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="composites-operations">
-						<h3>Operations</h3>
-                        <div class="root" id="operations">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-				</section>
+        <section>
+          <section class="slide" id="video">
+            <h3>视频</h3>
+            <ul>
+              <li>Basic Video</li>
+              <li>Simple Drwaing</li>
+              <li>Video Grayscale</li>
+              <li>Pixel Manipulation</li>
+            </ul>
+          </section>
+          <section class="slide" id="video-basic-video">
+            <h3>Basic Video</h3>
+            <div class="root" id="basic-video">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="video-simple-drwaing">
+            <h3>Simple Drwaing</h3>
+            <div class="root" id="simple-drwaing">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="video-video-grayscale">
+            <h3>Video Grayscale</h3>
+            <div class="root" id="video-grayscale">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+          <section class="slide" id="video-pixel-manipulation">
+            <h3>Pixel Manipulation</h3>
+            <div class="root" id="pixel-manipulation">
+              <div class="code container">
+                <textarea></textarea>
+              </div>
+              <div class="demo container">
+                <iframe scrolling="no"></iframe>
+              </div>
+            </div>
+          </section>
+        </section>
 
-				<section>
-					<section class="slide" id="animation">
-						<h3>动画</h3>
-                        <ul>
-                            <li>Clear Canvas</li>
-                            <li>Animation Frames</li>
-                            <li>Linear Motion</li>
-                            <li>Acceleration</li>
-                            <li>Oscillation</li>
-                            <li>Start and Stop</li>
-                            <li>Sprite Animation</li>
-                        </ul>
-					</section>
-					<section class="slide" id="animation-clear-canvas">
-						<h3>Clear Canvas</h3>
-                        <div class="root" id="clear-canvas">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="animation-animation-frames">
-						<h3>Animation Frames</h3>
-                        <div class="root" id="animation-frames">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="animation-linear-motion">
-						<h3>Linear Motion</h3>
-                        <div class="root" id="linear-motion">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="animation-acceleration">
-						<h3>Acceleration</h3>
-                        <div class="root" id="acceleration">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="animation-oscillation">
-						<h3>Oscillation</h3>
-                        <div class="root" id="oscillation">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="animation-start-stop">
-						<h3>Start and Stop</h3>
-                        <div class="root" id="start-stop">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="animation-sprite-animation">
-						<h3>Sprite Animation</h3>
-                        <div class="root" id="sprite-animation">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-				</section>
-
-				<section>
-					<section class="slide" id="image-data">
-						<h3>动态图像</h3>
-                        <ul>
-                            <li>Image Data</li>
-                            <li>Invert Colors</li>
-                            <li>Grayscale</li>
-                            <li>Get Data URL</li>
-                            <li>Load Data URL</li>
-                            <li>Save Drawing</li>
-                        </ul>
-					</section>
-					<section class="slide" id="image-data-image-data">
-						<h3>Image Data</h3>
-                        <div class="root" id="image-data">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="image-data-invert-colors">
-						<h3>Invert Colors</h3>
-                        <div class="root" id="invert-colors">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="image-data-grayscale">
-						<h3>Grayscale</h3>
-                        <div class="root" id="grayscale">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="image-data-get-data-url">
-						<h3>Get Data URL</h3>
-                        <div class="root" id="get-data-url">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="image-data-load-data-url">
-						<h3>Load Data URL</h3>
-                        <div class="root" id="load-data-url">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="image-data-save-drawing">
-						<h3>Save Drawing</h3>
-                        <div class="root" id="save-drawing">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-				</section>
-
-				<section>
-					<section class="slide" id="video">
-						<h3>视频</h3>
-                        <ul>
-                            <li>Basic Video</li>
-                            <li>Simple Drwaing</li>
-                            <li>Video Grayscale</li>
-                            <li>Pixel Manipulation</li>
-                        </ul>
-					</section>
-					<section class="slide" id="video-basic-video">
-						<h3>Basic Video</h3>
-                        <div class="root" id="basic-video">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="video-simple-drwaing">
-						<h3>Simple Drwaing</h3>
-                        <div class="root" id="simple-drwaing">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="video-video-grayscale">
-						<h3>Video Grayscale</h3>
-                        <div class="root" id="video-grayscale">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-					<section class="slide" id="video-pixel-manipulation">
-						<h3>Pixel Manipulation</h3>
-                        <div class="root" id="pixel-manipulation">
-						<div class="code container">
-                            <textarea></textarea>
-                        </div>
-						<div class="demo container">
-                            <iframe scrolling="no"></iframe>
-                        </div>
-                        </div>
-					</section>
-				</section>
-
-				<section>
-					<section class="slide" id="projects">
-						<h3>实用库</h3>
-                        <ul>
-                            <li>
-                                <a href="http://www.chartjs.org/" target="blank">Chart.js</a>
-                                <a href="https://github.com/nnnick/Chart.js" target="blank">@GitHub</a>
-                            </li>
-                            <li>
-                                <a href="http://paperjs.org/" target="blank">paper.js</a>
-                                <a href="https://github.com/paperjs/paper.js" target="blank">@GitHub</a>
-                            </li>
-                            <li>
-                                <a href="http://fabricjs.com/" target="blank">fabric.js</a>
-                                <a href="https://github.com/kangax/fabric.js" target="blank">@GitHub</a>
-                            </li>
-                            <li>
-                                <a href="http://www.kineticjs.com/" target="blank">KineticJS</a>
-                                <a href="https://github.com/ericdrowell/KineticJS" target="blank">@GitHub</a>
-                            </li>
-                            <li>
-                                <a href="http://phaser.io/" target="blank">Phaser</a>
-                                <a href="https://github.com/photonstorm/phaser" target="blank">@GitHub</a>
-                            </li>
-                            <li>
-                                <a href="http://www.goodboydigital.com/blog/" target="blank">pixi.js</a>
-                                <a href="https://github.com/GoodBoyDigital/pixi.js" target="blank">@GitHub</a>
-                            </li>
-                        </ul>
-					</section>
-					<section class="slide" id="applications">
-						<h3>应用</h3>
-                        <ul>
-                            <li>
-                                <a href="https://github.com/mtschirs/js-objectdetect" target="blank">js-objectdetect</a>
-                                <a href="http://mtschirs.github.com/js-objectdetect/examples/example_gesture_scroll.htm" target="blank">手势滑屏</a>
-                                <a href="http://mtschirs.github.com/js-objectdetect/examples/example_sunglasses.htm" target="blank">人脸检测</a>
-                            </li>
-                            <li>
-                                <a href="https://github.com/auduno/clmtrackr" target="blank">clmtrackr</a>
-                                <a href="http://auduno.github.io/clmtrackr/clm_video.html" target="blank">视频人脸检测</a>
-                                <a href="http://auduno.github.io/clmtrackr/examples/facedeform.html" target="blank">人脸变形</a>
-                            </li>
-                            <li>
-                                <a href="https://futureself.orange.com/" target="blank">未来的自己</a>
-                            </li>
-                        </ul>
-					</section>
-				</section>
+        <section>
+          <section class="slide" id="projects">
+            <h3>实用库</h3>
+            <ul>
+              <li>
+                <a href="http://www.chartjs.org/" target="blank">Chart.js</a>
+                <a href="https://github.com/nnnick/Chart.js" target="blank">@GitHub</a>
+              </li>
+              <li>
+                <a href="http://paperjs.org/" target="blank">paper.js</a>
+                <a href="https://github.com/paperjs/paper.js" target="blank">@GitHub</a>
+              </li>
+              <li>
+                <a href="http://fabricjs.com/" target="blank">fabric.js</a>
+                <a href="https://github.com/kangax/fabric.js" target="blank">@GitHub</a>
+              </li>
+              <li>
+                <a href="http://www.kineticjs.com/" target="blank">KineticJS</a>
+                <a href="https://github.com/ericdrowell/KineticJS" target="blank">@GitHub</a>
+              </li>
+              <li>
+                <a href="http://phaser.io/" target="blank">Phaser</a>
+                <a href="https://github.com/photonstorm/phaser" target="blank">@GitHub</a>
+              </li>
+              <li>
+                <a href="http://www.goodboydigital.com/blog/" target="blank">pixi.js</a>
+                <a href="https://github.com/GoodBoyDigital/pixi.js" target="blank">@GitHub</a>
+              </li>
+            </ul>
+          </section>
+          <section class="slide" id="applications">
+            <h3>应用</h3>
+            <ul>
+              <li>
+                <a href="https://github.com/mtschirs/js-objectdetect" target="blank">js-objectdetect</a>
+                <a href="http://mtschirs.github.com/js-objectdetect/examples/example_gesture_scroll.htm" target="blank">手势滑屏</a>
+                <a href="http://mtschirs.github.com/js-objectdetect/examples/example_sunglasses.htm" target="blank">人脸检测</a>
+              </li>
+              <li>
+                <a href="https://github.com/auduno/clmtrackr" target="blank">clmtrackr</a>
+                <a href="http://auduno.github.io/clmtrackr/clm_video.html" target="blank">视频人脸检测</a>
+                <a href="http://auduno.github.io/clmtrackr/examples/facedeform.html" target="blank">人脸变形</a>
+              </li>
+              <li>
+                <a href="https://futureself.orange.com/" target="blank">未来的自己</a>
+              </li>
+            </ul>
+          </section>
+        </section>
                 
-				<section class="slide end" id="end">
-					<h1>The End</h1>
-					<h3>Halo9Pan</h3>
-				</section>
+        <section class="slide end" id="end">
+          <h1>The End</h1>
+          <h3>Halo9Pan</h3>
+        </section>
 
-			</div>
+      </div>
+    </div>
 
-		</div>
-
-		<script src="../../external/reveal/lib/js/head.min.js"></script>
-		<script src="../../external/reveal/js/reveal.min.js"></script>
+    <script src="../../external/reveal/lib/js/head.min.js"></script>
+    <script src="../../external/reveal/js/reveal.min.js"></script>
     <script src="../../external/codemirror/lib/codemirror.js"></script>
     <script src="../../external/codemirror/mode/xml/xml.js"></script>
     <script src="../../external/codemirror/mode/javascript/javascript.js"></script>
@@ -986,39 +982,39 @@
     <script src="//ajax.googleapis.com/ajax/libs/prototype/1.7.2.0/prototype.js"></script>
     <script src="scripts/main.js"></script>
 
-		<script>
+    <script>
 
-			// Full list of configuration options available here:
-			// https://github.com/hakimel/reveal.js#configuration
-			Reveal.initialize({
-				width: '100%',
-				height: '100%',
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        width: '100%',
+        height: '100%',
                 minScale: 1,
-				controls: true,
-				progress: true,
-				history: true,
-				center: true,
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
                 overview: true,
 
-				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
 
-				// Parallax scrolling
-				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
-				// parallaxBackgroundSize: '2100px 900px',
+        // Parallax scrolling
+        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        // parallaxBackgroundSize: '2100px 900px',
 
-				// Optional libraries used to extend on reveal.js
-				dependencies: [
-					{ src: '../../external/reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
-					{ src: '../../external/reveal/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: '../../external/reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: '../../external/reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-					{ src: '../../external/reveal/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
-					{ src: '../../external/reveal/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
-				]
-			});
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: '../../external/reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: '../../external/reveal/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../../external/reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: '../../external/reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: '../../external/reveal/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: '../../external/reveal/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
 
-		</script>
+    </script>
 
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -1028,5 +1024,5 @@
       ga('create', 'UA-43856748-9', 'auto');
       ga('send', 'pageview');
     </script>
-	</body>
+  </body>
 </html>
