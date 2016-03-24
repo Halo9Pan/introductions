@@ -473,15 +473,15 @@ pre:-webkit-full-screen:after {
 
 #canvas-example {
 	padding: 0;
-	width: 500px;
-	height: 500px;
+	width: 400px;
+	height: 400px;
 	padding: 2px 2px 2px 2px;
 	text-align: center;
 	margin-top: 0px;
 }
 #canvas-example iframe {
-	width: 500px;
-	height: 500px;
+	width: 400px;
+	height: 400px;
 	max-width: 98%;
 	max-height: 98%;
 	border: none;
@@ -497,8 +497,8 @@ pre:-webkit-full-screen:after {
 #svg-example {
 	margin-top: 20px;
 	padding: 0;
-	width: 450px;
-	height: 450px;
+	width: 400px;
+	height: 400px;
 }
 
 #css-selectors-example {
@@ -516,7 +516,9 @@ pre:-webkit-full-screen:after {
 }
 #fontface-sample {
 	text-align: center;
-	font-size: 2em;
+	font-size: 1.6em;
+}
+#fontface-sample p{
 	font-family: 'YaYa';
 }
 
@@ -552,6 +554,7 @@ pre:-webkit-full-screen:after {
 	-moz-column-rule: 1px solid #bbb;
 	column-gap: 2em;
 	column-rule: 1px solid #bbb;
+  font-size: 0.5em;
 }
 
 #text-stroke-example {
@@ -752,7 +755,7 @@ pre:-webkit-full-screen:after {
 	margin-left: 0px;
 }
 .transitions div.go-right {
-	margin-left: 960px;
+	margin-left: 750px;
 }
 #transitions-box-2 {
 	-webkit-transition: margin-left 1s ease-in-out;

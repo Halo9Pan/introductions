@@ -7,22 +7,22 @@
 
 .slides>section.slide, .slides>section>section.slide {
   display: block;
-  width: 1200px;
-  height: 675px;
+  /*width: 1000px;*/
+  /*height: 750px;*/
   padding: 40px 80px;
   
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-     -o-box-sizing: border-box;
-      box-sizing: border-box;
+      -ms-box-sizing: border-box;
+       -o-box-sizing: border-box;
+          box-sizing: border-box;
 
   background: url("background.jpg") center center no-repeat;
   -webkit-background-size: cover;
-   -moz-background-size: cover;
-    -ms-background-size: cover;
-     -o-background-size: cover;
-      background-size: cover;
+     -moz-background-size: cover;
+      -ms-background-size: cover;
+       -o-background-size: cover;
+          background-size: cover;
   
   border: 1px solid hsla(240, 100%, 0%, .3);
   border-radius: 10px;
@@ -51,9 +51,8 @@
 }
 
 .slide pre, .slide code {
-  font-size: 0.8em;
-  font-family: Consolas "Courier New" monospace;
-  letter-spacing: 0.05em;
+  font-size: 0.5em;
+  font-family: Consolas, "Courier New", monospace;
   color: hsl(240, 60%, 90%);
   width: 100%;
   margin: 2px 0px 2px 0px;
@@ -96,7 +95,7 @@
   background:-webkit-linear-gradient( center top, hsl(240,70%,60%) 10%, hsl(240,50%,50%) 100% );
   background:   -moz-linear-gradient( center top, hsl(240,70%,60%) 10%, hsl(240,50%,50%) 100% );
   background:    -ms-linear-gradient( center top, hsl(240,70%,60%) 10%, hsl(240,50%,50%) 100% );
-  background:   -o-linear-gradient( center top, hsl(240,70%,60%) 10%, hsl(240,50%,50%) 100% );
+  background:     -o-linear-gradient( center top, hsl(240,70%,60%) 10%, hsl(240,50%,50%) 100% );
   background-color: hsl(240,70%,60%);
   
   border-radius: 5px;
@@ -117,7 +116,7 @@
   background:-webkit-linear-gradient( center top, hsl(240,50%,50%) 10%, hsl(240,70%,60%) 100% );
   background:   -moz-linear-gradient( center top, hsl(240,50%,50%) 10%, hsl(240,70%,60%) 100% );
   background:    -ms-linear-gradient( center top, hsl(240,50%,50%) 10%, hsl(240,70%,60%) 100% );
-  background:   -o-linear-gradient( center top, hsl(240,50%,50%) 10%, hsl(240,70%,60%) 100% );
+  background:     -o-linear-gradient( center top, hsl(240,50%,50%) 10%, hsl(240,70%,60%) 100% );
   background-color: hsl(240,50%,50%);
 }
 .slide button:active {
@@ -137,17 +136,17 @@
 
 .slide h2 {
   color: hsl(240, 60%, 100%);
-  font-size: 3.2em;
+  font-size: 1.6em;
   text-transform: none;
   text-align: center;
-  margin-top: 200px;
+  margin-top: 20px;
   margin-bottom: 20px;
   text-shadow: 2px 4px 6px hsla(240, 80%, 20%, 0.2);
   -webkit-text-stroke: 4px hsla(240, 40%, 80%, 0.2);
-   -moz-text-stroke: 4px hsla(240, 40%, 80%, 0.2);
-    -ms-text-stroke: 4px hsla(240, 40%, 80%, 0.2);
-     -o-text-stroke: 4px hsla(240, 40%, 80%, 0.2);
-      text-stroke: 4px hsla(240, 40%, 80%, 0.2);
+     -moz-text-stroke: 4px hsla(240, 40%, 80%, 0.2);
+      -ms-text-stroke: 4px hsla(240, 40%, 80%, 0.2);
+       -o-text-stroke: 4px hsla(240, 40%, 80%, 0.2);
+          text-stroke: 4px hsla(240, 40%, 80%, 0.2);
 }
 
 .slide h3 {
@@ -195,7 +194,7 @@
   display: inline;
 }
 .slide header span {
-  font-size: 1.5em;
+  font-size: 1.2em;
 }
 
 .slide.begin header {
